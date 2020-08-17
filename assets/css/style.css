@@ -1,10 +1,14 @@
 /* Global Styling */
 
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900);
+html, body, html * {
+  font-family: 'Roboto', sans-serif;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 :root {
@@ -64,6 +68,7 @@ main p {
   margin: 10px 0;
   font-size: 24px;
   line-height: 1.2;
+  /* font-weight: 300; */
 }
 
 .btn {
