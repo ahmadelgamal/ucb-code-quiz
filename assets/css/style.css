@@ -35,6 +35,10 @@ header {
   float: right;
 }
 
+.timer p {
+  display: inline;
+}
+
 /* main styling, including common styling in main section */
 main {
   margin: 20px auto;
