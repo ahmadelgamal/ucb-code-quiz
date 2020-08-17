@@ -1,8 +1,23 @@
 /* Global Styling */
 
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900);
-html, body, html * {
-  font-family: 'Roboto', sans-serif;
+@import url(
+  http://fonts.googleapis.com/css?family=Roboto:400,
+  100,
+  100italic,
+  300,
+  300ita‌​lic,
+  400italic,
+  500,
+  500italic,
+  700,
+  700italic,
+  900italic,
+  900
+);
+html,
+body,
+html * {
+  font-family: "Roboto", sans-serif;
 }
 
 * {
@@ -23,7 +38,7 @@ html, body, html * {
 header {
   height: 100px;
   margin: 20px;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .high-scores-link {
@@ -46,38 +61,37 @@ header {
 /* main styling, including common styling in main section */
 main {
   margin: 20px auto;
-  width: 55%;
-  /* margin: auto; */
+  width: 70%;
 }
 
 main h1,
 .question ul li {
   margin: 20px 0;
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
   list-style: none;
 }
 
 main h2 {
   margin: 10px 0;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 300;
 }
 
 main p {
   margin: 10px 0;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 1.2;
-  /* font-weight: 300; */
 }
 
 .btn {
   margin: 10px 10px 0 0;
   padding: 7px 20px;
-  font-size: 24px;
+  font-size: 20px;
   color: var(--default-btn-font-color);
   background-color: var(--default-btn-background-color);
   border: none;
+  outline: none;
   border-radius: 10px;
 }
 
@@ -87,12 +101,12 @@ main p {
 
 /* start quiz screen */
 .start-quiz-screen {
-  /* display: none; */
+  display: none;
   text-align: center;
 }
 
 .start-quiz-btn {
-  padding: 15px 25px;
+  padding: 13px 25px;
 }
 
 /* quiz screen styling*/
@@ -101,13 +115,12 @@ main p {
 }
 
 .answer-choice {
-  font-size: 24px;
+  font-size: 18px;
   color: var(--default-btn-font-color);
   background-color: var(--default-btn-background-color);
   width: 250px;
   margin: 10px 0;
   padding: 10px 20px;
-  line-height: 1.5;
   border-radius: 10px;
   list-style: decimal inside;
 }
@@ -118,13 +131,13 @@ main p {
 }
 
 .result hr {
-color: var(--result-color);
+  color: var(--result-color);
 }
 
 .result ul li {
-  margin-top: 10px;
+  margin: 10px;
   list-style: none;
-  font-size: 40px;
+  font-size: 28px;
   font-style: italic;
   color: var(--result-color);
 }
@@ -135,15 +148,14 @@ color: var(--result-color);
 }
 
 .all-done-screen h2 {
-  display: inline;
+  display: inline-block;
+  margin-bottom: 0px;
 }
 
 #initials {
-  height: 40px;
-  width: 350px;
   margin-right: 20px;
-  font-size: 24px;
-  padding: 0 10px;
+  font-size: 20px;
+  padding: 5px 10px;
 }
 
 .initials-btn {
@@ -152,7 +164,7 @@ color: var(--result-color);
 
 /* high-score screen styling */
 .high-scores-screen {
-  display: none;
+  /* display: none; */
 }
 
 .high-scores-screen ol {
@@ -161,8 +173,8 @@ color: var(--result-color);
 
 .high-scores-screen ol li {
   width: 100%;
-  font-size: 24px;
-  padding: 10px;
+  font-size: 20px;
+  padding: 7px 10px;
   list-style: decimal inside;
 }
 
@@ -173,6 +185,6 @@ color: var(--result-color);
 /* footer styling */
 footer p {
   margin-top: 50px;
-  font-size: 20px;
+  font-size: 16px;
   text-align: center;
 }
