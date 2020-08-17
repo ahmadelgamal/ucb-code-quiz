@@ -19,11 +19,11 @@
 header {
   height: 100px;
   margin: 20px;
+  font-size: 20px;
 }
 
 .high-scores-link {
   float: left;
-  font-size: 20px;
 }
 
 .high-scores-link a {
@@ -33,24 +33,23 @@ header {
 
 .timer {
   float: right;
-  font-size: 20px;
 }
 
-/* main styling, including common styling in main sectino */
+/* main styling, including common styling in main section */
 main {
   margin: 20px auto;
 }
 
 main h1,
 .question ul li {
-  margin: 20px;
+  margin: 20px 0;
   font-size: 40px;
   font-weight: 700;
   list-style: none;
 }
 
 main p {
-  margin: 10px;
+  margin: 10px 0;
   font-size: 20px;
   line-height: 1.2;
 }
@@ -102,7 +101,7 @@ color: var(--result-color);
   list-style: none;
   font-size: 40px;
   font-style: italic;
-  color: var(--answer-color);
+  color: var(--result-color);
 }
 
 /* high-score screen styling */
