@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Code Quiz</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="high-scores">
+        <p><a href="">View high scores</a></p>
+      </div>
+      <div class="timer">
+        <!-- 75 Seconds -->
+        <p>Time:</p>
+      </div>
+    </header>
+
+    <main>
+      <div class="welcome-screen">
+        <h1>Coding Quiz Challenge</h1>
+        <p>Try to answer the following code-related questions within the time limit.<br />Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
+        <button class="start-quiz-btn btn">Start Quiz</button>
+      </div>
+
+      <div class="quiz">
+        <section class="question">
+          <ul class="questions-list">
+            <li>Commonly used data types DO Not Include</li>
+          </ul>
+        </section>
+
+        <section class="answers"></section>
+        <ol class="answers-list">
+          <li class="answer-choice btn">strings</li>
+          <li class="answer-choice btn">booleans</li>
+          <li class="answer-choice btn">alerts</li>
+          <li class="answer-choice btn">numbers</li>
+        </ol>
+
+        <section class="result">
+          <hr />
+          <ul class="result-list">
+            <li class="Correct-or-Wrong">Correct!</li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="high-scores-screen">
+        <h1>High Scores</h1>
+      </div>
+    </main>
+
+    <footer>
+      <p>Developed by Ahmad El Gamal for UCB</p>
+    </footer>
+  </body>
+</html>
