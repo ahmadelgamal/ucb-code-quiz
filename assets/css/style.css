@@ -12,6 +12,7 @@
   --default-btn-background-color: #000072;
   --selected-btn-background-color: purple;
   --default-btn-font-color: white;
+  --result-color: gray;
 }
 
 /* header styling */
@@ -20,12 +21,12 @@ header {
   margin: 20px;
 }
 
-.high-scores {
+.high-scores-link {
   float: left;
   font-size: 20px;
 }
 
-.high-scores a {
+.high-scores-link a {
   color: var(--selected-btn-background-color);
   text-decoration: none;
 }
@@ -55,7 +56,7 @@ main p {
 }
 
 .btn {
-  color: white;
+  color: var(--default-btn-font-color);
   background-color: var(--default-btn-background-color);
 }
 
@@ -75,7 +76,7 @@ main p {
 }
 
 /* quiz screen styling*/
-.quiz {
+.quiz-screen {
   /* display: none; */
   width: 50%;
   margin: auto;
@@ -83,8 +84,8 @@ main p {
 
 .answer-choice {
   font-size: 20px;
-  color: white;
-  background-color: #000072;
+  color: var(--default-btn-font-color);
+  background-color: var(--default-btn-background-color);
   width: 400px;
   margin: 20px 0;
   padding: 10px 20px;
@@ -93,7 +94,7 @@ main p {
 }
 
 .result hr {
-color: gray;
+color: var(--result-color);
 }
 
 .result ul li {
@@ -101,7 +102,7 @@ color: gray;
   list-style: none;
   font-size: 40px;
   font-style: italic;
-  color: gray;
+  color: var(--answer-color);
 }
 
 /* high-score screen styling */
