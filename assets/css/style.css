@@ -8,11 +8,11 @@
 }
 
 :root {
-  --default-btn-background-color: #000072;
-  --selected-btn-background-color: purple;
-  --default-btn-font-color: white;
-  --result-color: gray;
-  --high-score-lines-color: lightblue;
+  --default-btn-background-color: #351c75;
+  --selected-btn-background-color: #bd60e7;
+  --default-btn-font-color: #ffffff;
+  --result-color: #9e9e9e;
+  --high-score-lines-color: #d9d3e9;
 }
 
 /* header styling */
