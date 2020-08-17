@@ -1,29 +1,10 @@
 /* Global Styling */
 
-@import url(
-  http://fonts.googleapis.com/css?family=Roboto:400,
-  100,
-  100italic,
-  300,
-  300ita‌​lic,
-  400italic,
-  500,
-  500italic,
-  700,
-  700italic,
-  900italic,
-  900
-);
-html,
-body,
-html * {
-  font-family: "Roboto", sans-serif;
-}
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 
 :root {
@@ -86,13 +67,13 @@ main p {
 
 .btn {
   margin: 10px 10px 0 0;
-  padding: 7px 20px;
+  padding: 5px 20px;
   font-size: 20px;
   color: var(--default-btn-font-color);
   background-color: var(--default-btn-background-color);
   border: none;
   outline: none;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .btn:active {
@@ -101,12 +82,12 @@ main p {
 
 /* start quiz screen */
 .start-quiz-screen {
-  display: none;
+  /* display: none; */
   text-align: center;
 }
 
 .start-quiz-btn {
-  padding: 13px 25px;
+  padding: 10px 20px;
 }
 
 /* quiz screen styling*/
@@ -164,7 +145,7 @@ main p {
 
 /* high-score screen styling */
 .high-scores-screen {
-  /* display: none; */
+  display: none;
 }
 
 .high-scores-screen ol {
