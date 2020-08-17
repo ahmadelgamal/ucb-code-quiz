@@ -4,8 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 :root {
@@ -13,6 +12,7 @@
   --selected-btn-background-color: purple;
   --default-btn-font-color: white;
   --result-color: gray;
+  --high-score-lines-color: lightblue;
 }
 
 /* header styling */
@@ -38,6 +38,8 @@ header {
 /* main styling, including common styling in main section */
 main {
   margin: 20px auto;
+  width: 55%;
+  /* margin: auto; */
 }
 
 main h1,
@@ -48,48 +50,62 @@ main h1,
   list-style: none;
 }
 
+main h2 {
+  margin: 10px 0;
+  font-size: 32px;
+  font-weight: 300;
+}
+
 main p {
   margin: 10px 0;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 1.2;
 }
 
 .btn {
+  margin: 10px 10px 0 0;
+  padding: 7px 20px;
+  font-size: 24px;
   color: var(--default-btn-font-color);
   background-color: var(--default-btn-background-color);
+  border: none;
+  border-radius: 10px;
+}
+
+.btn:active {
+  background-color: var(--selected-btn-background-color);
 }
 
 /* start quiz screen */
 .start-quiz-screen {
-  display: none;
+  /* display: none; */
   text-align: center;
 }
 
 .start-quiz-btn {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 20px;
-  /* width: 150px; */
-  /* height: 50px; */
-  border-radius: 10px;
+  padding: 15px 25px;
 }
 
 /* quiz screen styling*/
 .quiz-screen {
   /* display: none; */
-  width: 50%;
-  margin: auto;
 }
 
 .answer-choice {
-  font-size: 20px;
+  font-size: 24px;
   color: var(--default-btn-font-color);
   background-color: var(--default-btn-background-color);
-  width: 400px;
-  margin: 20px 0;
+  width: 250px;
+  margin: 10px 0;
   padding: 10px 20px;
   line-height: 1.5;
   border-radius: 10px;
+  list-style: decimal inside;
+}
+
+.result {
+  /* display: none; */
+  margin-top: 50px;
 }
 
 .result hr {
@@ -104,13 +120,50 @@ color: var(--result-color);
   color: var(--result-color);
 }
 
+/* all-done screen styling */
+.all-done-screen {
+  /* display: none; */
+}
+
+.all-done-screen h2 {
+  display: inline;
+}
+
+#initials {
+  height: 40px;
+  width: 350px;
+  margin-right: 20px;
+  font-size: 24px;
+  padding: 0 10px;
+}
+
+.initials-btn {
+  display: inline;
+}
+
 /* high-score screen styling */
 .high-scores-screen {
-  display: none;
+  /* display: none; */
+}
+
+.high-scores-screen ol {
+  margin-bottom: 10px;
+}
+
+.high-scores-screen ol li {
+  width: 100%;
+  font-size: 24px;
+  padding: 10px;
+  list-style: decimal inside;
+}
+
+.high-scores-screen ol li:nth-child(odd) {
+  background-color: var(--high-score-lines-color);
 }
 
 /* footer styling */
 footer p {
+  margin-top: 50px;
   font-size: 20px;
   text-align: center;
 }
