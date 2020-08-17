@@ -92,7 +92,7 @@ main p {
 
 /* quiz screen styling*/
 .quiz-screen {
-  /* display: none; */
+  display: none;
 }
 
 .answer-choice {
@@ -108,7 +108,7 @@ main p {
 }
 
 .result {
-  /* display: none; */
+  display: none;
   margin-top: 50px;
 }
 
@@ -126,7 +126,7 @@ color: var(--result-color);
 
 /* all-done screen styling */
 .all-done-screen {
-  /* display: none; */
+  display: none;
 }
 
 .all-done-screen h2 {
@@ -147,7 +147,7 @@ color: var(--result-color);
 
 /* high-score screen styling */
 .high-scores-screen {
-  /* display: none; */
+  display: none;
 }
 
 .high-scores-screen ol {
