@@ -43,6 +43,7 @@ var goBackBtn = document.getElementById("go-back-btn");
 var clearHighScoresBtn = document.getElementById("clear-ghigh-scores-btn");
 var questionsListEl = document.getElementById("questions-list");
 var answersListEl = document.getElementById("answers-list");
+var resultEl = document.getElementById("result");
 var finalScoreEl = document.getElementById("final-score");
 
 // Declare variables to keep score and track question numbers
@@ -63,21 +64,23 @@ function startQuiz() {
 
 // Set and display questions and answers
 function nextQuestion() {
+  hideResult();
   questionsListEl.innerHTML = questionsList[questionNumber].q;
   answersListEl.innerHTML = questionsList[questionNumber].a;
-  answersListEl.addEventListener("click", scoreUpdate);
-  questionNumber++;
+  answersListEl.addEventListener("click", result);
 }
 
 // Event to display next question in quiz
 questionsListEl.onclick = nextQuestion;
 
-// Function to update and display score
-function scoreUpdate() {
+// Function to display result and update and display score
+function result () {
+  resultEl.textContent = "Correct!";
+  displayResult();
+  finalScoreEl.textContent = "Your final score is " + score + ".";
+  questionNumber++;
   if (questionNumber < questionsList.length) {
-    score++;
-    finalScoreEl.textContent = "Your final score is " + score + ".";
-    nextQuestion();
+    setTimeout(function () { nextQuestion() }, 3000);
   } else {
     displayAllDone(); //END TEST
   }
@@ -86,6 +89,7 @@ function scoreUpdate() {
 // Declaring the different views/screens to turn them on and off
 var startQuizScreen = document.getElementById("start-quiz-screen");
 var quizScreen = document.getElementById("quiz-screen");
+var resultScreen = document.getElementById("result-screen");
 var allDoneScreen = document.getElementById("all-done-screen");
 var highScoresScreen = document.getElementById("high-scores-screen");
 
@@ -93,6 +97,16 @@ var highScoresScreen = document.getElementById("high-scores-screen");
 function displayQuiz() {
   startQuizScreen.style.display = "none";
   quizScreen.style.display = "initial";
+}
+
+// Display result for each question after answer
+function displayResult() {
+  resultScreen.style.display = "initial";
+}
+
+// Hide result for each question before answer
+function hideResult() {
+  resultScreen.style.display = "none";
 }
 
 // Timer that counts down from 75 seconds
