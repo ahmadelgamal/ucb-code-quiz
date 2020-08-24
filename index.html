@@ -15,41 +15,41 @@
     <link rel="stylesheet" href="./assets/css/style.css" />
   </head>
   <body>
-    <header>
+    <header id="header">
       <div class="high-scores-link">
-        <p><a href="">View high scores</a></p>
+        <p id="view-high-scores">View high scores</p>
       </div>
       <div class="timer">
         <!-- 75 Seconds -->
         <p>Time:</p>
-        <p class="timer">75</p>
+        <p id="timer">75</p>
       </div>
     </header>
 
-    <main>
-      <div class="start-quiz-screen">
+    <main id="main">
+      <div id="start-quiz-screen">
         <h1>Coding Quiz Challenge</h1>
         <p>
           Try to answer the following code-related questions within the time
           limit.<br />Keep in mind that incorrect answers will penalize your
           score/time by ten seconds!
         </p>
-        <button class="start-quiz-btn btn">Start Quiz</button>
+        <button class="btn" id="start-quiz-btn">Start Quiz</button>
       </div>
 
-      <div class="quiz-screen">
+      <div id="quiz-screen">
         <section class="question">
-          <ul class="questions-list">
+          <ul id="questions-list">
             <li>Commonly used data types DO Not Include:</li>
           </ul>
         </section>
 
         <section class="answers"></section>
-        <ol class="answers-list">
-          <li class="answer-choice btn">strings</li>
-          <li class="answer-choice btn">booleans</li>
-          <li class="answer-choice btn">alerts</li>
-          <li class="answer-choice btn">numbers</li>
+        <ol id="answers-list">
+          <li>strings</li>
+          <li>booleans</li>
+          <li>alerts</li>
+          <li>numbers</li>
         </ol>
 
         <section class="result">
@@ -60,31 +60,33 @@
         </section>
       </div>
 
-      <div class="all-done-screen">
+      <div id="all-done-screen">
         <h1>All done!</h1>
         <h2>Your final score is</h2>
-        <h2 class="final-score">22</h2>
+        <h2 id="final-score"></h2>
         <h2>.</h2>
         <br />
         <h2 class="enter-initials">Enter initials:</h2>
         <input type="text" id="initials" />
-        <button class="initials-btn btn">Submit</button>
+        <button class="btn" id="initials-btn">Submit</button>
       </div>
 
-      <div class="high-scores-screen">
+      <div id="high-scores-screen">
         <h1>High Scores</h1>
         <ol class="high-score-list">
           <li>AG - 25</li>
           <li>MY - 15</li>
           <li>ZK - 17</li>
         </ol>
-        <button class="go-back btn">Go back</button>
-        <button class="clear-high-scores btn">Clear high scores</button>
+        <button class="btn" id="go-back-btn">Go back</button>
+        <button class="btn" id="clear-high-scores-btn">Clear high scores</button>
       </div>
     </main>
 
     <footer>
       <p>Developed by Ahmad El Gamal for UCB</p>
     </footer>
+
+    <script src="./assets/js/script.js"></script>
   </body>
 </html>
