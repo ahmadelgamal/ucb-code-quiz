@@ -52,9 +52,11 @@ var questionNumber = 0;
 // Button calls function to start quiz
 startBtn.onclick = startQuiz;
 
-// calls function to display quiz screen and another to display the first question
+// calls function to reset score and quiz and display quiz screen
 function startQuiz() {
-  quiz();
+  score = 0;
+  questionNumber = 0;
+  displayQuiz();
   nextQuestion();
 }
 
@@ -76,7 +78,7 @@ function scoreUpdate() {
     finalScoreEl.textContent = "Your final score is " + score + ".";
     nextQuestion();
   } else {
-    allDone(); //END TEST
+    displayAllDone(); //END TEST
   }
 }
 
@@ -87,10 +89,10 @@ var allDoneScreen = document.getElementById("all-done-screen");
 var highScoresScreen = document.getElementById("high-scores-screen");
 
 // Event to display high scores screen
-viewHighScoresEl.onclick = highScores;
+viewHighScoresEl.onclick = displayHighScores;
 
-// The High Scores screen
-function highScores() {
+// Display High Scores screen
+function displayHighScores() {
   headerEl.style.visibility = "hidden";
   startQuizScreen.style.display = "none";
   quizScreen.style.display = "none";
@@ -99,17 +101,17 @@ function highScores() {
 }
 
 // Button from high scores screen to go back to start quiz screen
-goBackBtn.onclick = goBack;
+goBackBtn.onclick = displayGoBack;
 
 // The go back button in the High Scores screen
-function goBack() {
+function displayGoBack() {
   headerEl.style.visibility = "visible";
   highScoresScreen.style.display = "none";
   startQuizScreen.style.display = "initial";
 }
 
 // Turn off start quiz screen and turn on quiz screen
-function quiz() {
+function displayQuiz() {
   startQuizScreen.style.display = "none";
   quizScreen.style.display = "initial";
 }
@@ -125,13 +127,13 @@ function countdown() {
     } else {
       timerEl.textContent = "0";
       clearInterval(timeInterval);
-      allDone(); // END TEST
+      displayAllDone(); // END TEST
     }
   }, 1000); // Timer interval in milliseconds
 }
 
 // End of test
-function allDone() {
+function displayAllDone() {
   headerEl.style.visibility = "visible";
   startQuizScreen.style.display = "none";
   quizScreen.style.display = "none";
