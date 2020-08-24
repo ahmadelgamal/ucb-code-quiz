@@ -45,13 +45,16 @@ var questionsListEl = document.getElementById("questions-list");
 var answersListEl = document.getElementById("answers-list");
 var finalScoreEl = document.getElementById("final-score");
 
+// Declare variables to keep score and track question numbers
+var score = 0;
+var questionNumber = 0;
+
 // Button calls function to start quiz
 startBtn.onclick = startQuiz;
 
-// Declaring variables to keep score and track question numbers
+// calls function to display quiz screen and another to display the first question
 function startQuiz() {
-  var score = 0;
-  var questionNumber = 0;
+  quiz();
   nextQuestion();
 }
 
@@ -60,8 +63,6 @@ function nextQuestion() {
   questionsListEl.innerHTML = questionsList[questionNumber].q;
   answersListEl.innerHTML = questionsList[questionNumber].a;
   answersListEl.addEventListener("click", scoreUpdate);
-  console.log(questionNumber);
-  console.log(questionsList[questionNumber].c);
   questionNumber++;
 }
 
@@ -71,10 +72,8 @@ questionsListEl.onclick = nextQuestion;
 // Function to update and display score
 function scoreUpdate() {
   if (questionNumber < questionsList.length) {
-    console.log(questionNumber);
     score++;
     finalScoreEl.textContent = "Your final score is " + score + ".";
-    console.log(score);
     nextQuestion();
   } else {
     allDone(); //END TEST
