@@ -53,7 +53,7 @@ var questionNumber = 0;
 // Button calls function to start quiz
 startBtn.onclick = startQuiz;
 
-// calls function to reset score and quiz and display quiz screen
+// Calls function to reset score and quiz and display quiz screen
 function startQuiz() {
   score = 0;
   questionNumber = 0;
@@ -80,9 +80,9 @@ function result () {
   finalScoreEl.textContent = "Your final score is " + score + ".";
   questionNumber++;
   if (questionNumber < questionsList.length) {
-    setTimeout(function () { nextQuestion() }, 3000);
+    setTimeout(function () { nextQuestion() }, 2000);
   } else {
-    displayAllDone(); //END TEST
+    setTimeout(function () { displayAllDone() }, 2000); //END TEST
   }
 }
 
@@ -111,7 +111,7 @@ function hideResult() {
 
 // Timer that counts down from 75 seconds
 function countdown() {
-  var timeLeft = 10; // change to 75
+  var timeLeft = 20; // change to 75
 
   var timeInterval = setInterval(function () {
     if (timeLeft > 0) {

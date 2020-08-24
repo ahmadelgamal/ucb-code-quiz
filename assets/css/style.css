@@ -110,16 +110,16 @@ main p {
   list-style: decimal inside;
 }
 
-.result {
+#result-screen {
   display: none;
   margin-top: 50px;
 }
 
-.result hr {
+#result-screen hr {
   color: var(--result-color);
 }
 
-.result p {
+#result {
   margin: 10px;
   list-style: none;
   font-size: 28px;
