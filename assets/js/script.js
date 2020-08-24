@@ -1,5 +1,5 @@
-// Declaring the array of questions and answers
-var questionsList = [
+// Declaring the array of q: questions, a: answers and c: correct answers
+const questionsList = [
   {
     q: "Commonly used data types DO Not Include:",
     a: "<li>strings</li> <li>booleans</li> <li>alerts</li> <li>numbers</li>",
@@ -33,7 +33,7 @@ var questionsList = [
   },
 ];
 
-// Declaring the different elements and buttons needed for this project
+// Declaring variables to represent the different HTML elements and buttons needed for this project
 var headerEl = document.getElementById("header");
 var viewHighScoresEl = document.getElementById("view-high-scores");
 var timerEl = document.getElementById("timer");
@@ -45,35 +45,50 @@ var questionsListEl = document.getElementById("questions-list");
 var answersListEl = document.getElementById("answers-list");
 var finalScoreEl = document.getElementById("final-score");
 
-// Function to keep score
-var score = 0;
+// Button calls function to start quiz
+startBtn.onclick = startQuiz;
 
-function scoreUpdate () {
-  // if (... === questionsList[i].c) {
-    score++;
-    finalScoreEl.textContent = score;
-    console.log(score);
-  // }
-};
-
-// Display questions and answers list
-for (var i = 0; i < questionsList.length; i++) {
-  questionsListEl.innerHTML = questionsList[i].q;
-  answersListEl.innerHTML = questionsList[i].a;
-  answersListEl.addEventListener("click", scoreUpdate);
-  // return i;
+// Declaring variables to keep score and track question numbers
+function startQuiz() {
+  var score = 0;
+  var questionNumber = 0;
+  nextQuestion();
 }
 
-// Declaring the different view to turn them on and off
+// Set and display questions and answers
+function nextQuestion() {
+  questionsListEl.innerHTML = questionsList[questionNumber].q;
+  answersListEl.innerHTML = questionsList[questionNumber].a;
+  answersListEl.addEventListener("click", scoreUpdate);
+  console.log(questionNumber);
+  console.log(questionsList[questionNumber].c);
+  questionNumber++;
+}
+
+// Event to display next question in quiz
+questionsListEl.onclick = nextQuestion;
+
+// Function to update and display score
+function scoreUpdate() {
+  if (questionNumber < questionsList.length) {
+    console.log(questionNumber);
+    score++;
+    finalScoreEl.textContent = "Your final score is " + score + ".";
+    console.log(score);
+    nextQuestion();
+  } else {
+    allDone(); //END TEST
+  }
+}
+
+// Declaring the different views/screens to turn them on and off
 var startQuizScreen = document.getElementById("start-quiz-screen");
 var quizScreen = document.getElementById("quiz-screen");
 var allDoneScreen = document.getElementById("all-done-screen");
 var highScoresScreen = document.getElementById("high-scores-screen");
 
-// Identifying the different buttons/elements to be clicked
+// Event to display high scores screen
 viewHighScoresEl.onclick = highScores;
-startBtn.onclick = countdown;
-goBackBtn.onclick = goBack;
 
 // The High Scores screen
 function highScores() {
@@ -84,6 +99,9 @@ function highScores() {
   highScoresScreen.style.display = "initial";
 }
 
+// Button from high scores screen to go back to start quiz screen
+goBackBtn.onclick = goBack;
+
 // The go back button in the High Scores screen
 function goBack() {
   headerEl.style.visibility = "visible";
@@ -91,15 +109,16 @@ function goBack() {
   startQuizScreen.style.display = "initial";
 }
 
-// Timer that counts down from 75 seconds
-function countdown() {
-  // Turn off start quiz screen and turn on quiz screen
+// Turn off start quiz screen and turn on quiz screen
+function quiz() {
   startQuizScreen.style.display = "none";
   quizScreen.style.display = "initial";
+}
 
-  var timeLeft = 5; // change to 75
+// Timer that counts down from 75 seconds
+function countdown() {
+  var timeLeft = 10; // change to 75
 
-  // Use the `setInterval()` method to call a function to be executed every 1000 milliseconds
   var timeInterval = setInterval(function () {
     if (timeLeft > 0) {
       timerEl.textContent = timeLeft;
@@ -107,10 +126,9 @@ function countdown() {
     } else {
       timerEl.textContent = "0";
       clearInterval(timeInterval);
-      // END TEST
-      allDone();
+      allDone(); // END TEST
     }
-  }, 1000);
+  }, 1000); // Timer interval in milliseconds
 }
 
 // End of test
