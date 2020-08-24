@@ -57,6 +57,7 @@ function startQuiz() {
   score = 0;
   questionNumber = 0;
   displayQuiz();
+  countdown();
   nextQuestion();
 }
 
@@ -88,28 +89,6 @@ var quizScreen = document.getElementById("quiz-screen");
 var allDoneScreen = document.getElementById("all-done-screen");
 var highScoresScreen = document.getElementById("high-scores-screen");
 
-// Event to display high scores screen
-viewHighScoresEl.onclick = displayHighScores;
-
-// Display High Scores screen
-function displayHighScores() {
-  headerEl.style.visibility = "hidden";
-  startQuizScreen.style.display = "none";
-  quizScreen.style.display = "none";
-  allDoneScreen.style.display = "none";
-  highScoresScreen.style.display = "initial";
-}
-
-// Button from high scores screen to go back to start quiz screen
-goBackBtn.onclick = displayGoBack;
-
-// The go back button in the High Scores screen
-function displayGoBack() {
-  headerEl.style.visibility = "visible";
-  highScoresScreen.style.display = "none";
-  startQuizScreen.style.display = "initial";
-}
-
 // Turn off start quiz screen and turn on quiz screen
 function displayQuiz() {
   startQuizScreen.style.display = "none";
@@ -139,4 +118,26 @@ function displayAllDone() {
   quizScreen.style.display = "none";
   highScoresScreen.style.display = "none";
   allDoneScreen.style.display = "initial";
+}
+
+// Event to display high scores screen
+viewHighScoresEl.onclick = displayHighScores;
+
+// Display High Scores screen
+function displayHighScores() {
+  headerEl.style.visibility = "hidden";
+  startQuizScreen.style.display = "none";
+  quizScreen.style.display = "none";
+  allDoneScreen.style.display = "none";
+  highScoresScreen.style.display = "initial";
+}
+
+// Button from high scores screen to go back to start quiz screen
+goBackBtn.onclick = displayGoBack;
+
+// The go back button in the High Scores screen
+function displayGoBack() {
+  headerEl.style.visibility = "visible";
+  highScoresScreen.style.display = "none";
+  startQuizScreen.style.display = "initial";
 }
