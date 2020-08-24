@@ -1,12 +1,3 @@
-// * REMAINING WORK
-// 1- CHANGE DECLARATION OF QUESTIONS TO BE ABLE TO ID CORRECT ANSWER
-// 2- AFTER COMPLETING #1 (above), KEEP TRACK OF SCORE
-// 3- SAVE HIGH SCORES TO LOCALSTORAGE
-// 4- GET HIGH SCORES FROM LOCALSTORAGE
-// 5- ADD OPTION TO CLEAR LOCALSTORAGE BY CLICKING ON "Clear high scores" BUTTON
-// When completed, reset timer in countdown() to 75 seconds
-
-
 // Declaring the array of q: questions, a: answers and c: correct answers
 const questionsList = [
   {
