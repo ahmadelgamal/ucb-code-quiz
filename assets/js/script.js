@@ -2,33 +2,29 @@
 const questionsList = [
   {
     q: "Commonly used data types DO Not Include:",
-    a: "<li>strings</li> <li>booleans</li> <li>alerts</li> <li>numbers</li>",
+    a: ["strings", "booleans", "alerts", "numbers"],
     c: "alerts",
   },
   {
     q: "The condition in an if / else statement is enclosed with ________.",
-    a:
-      "<li>quotes</li> <li>curly brackets</li> <li>parenthesis</li> <li>square brackets</li>",
+    a: ["quotes", "curly brackets", "parenthesis", "square brackets"],
     c: "parenthesis",
   },
   {
     q: "Arrays in JavaScript can be used to store _______.",
-    a:
-      "<li>numbers and strings</li> <li>other arrays</li> <li>booleans</li> <li>all of the above</li>",
+    a: ["numbers and strings", "other arrays", "booleans", "all of the above"],
     c: "all of the above",
   },
   {
     q:
       "String values must be enclosed within _______ when being assigned to variables.",
-    a:
-      "<li>commas</li> <li>curly brackets</li> <li>quotes</li> <li>parenthesis</li>",
+    a: ["commas", "curly brackets", "quotes", "parenthesis"],
     c: "quotes",
   },
   {
     q:
       "A very useful tool used during development and debugging for printing content to the debugger is:",
-    a:
-      "<li>JavaScript</li> <li>terminal/bash</li> <li>for loops</li> <li>console.log</li>",
+    a: ["JavaScript", "terminal/bash", "for loops", "console.log"],
     c: "console.log",
   },
 ];
