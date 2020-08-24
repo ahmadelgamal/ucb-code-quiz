@@ -1,3 +1,12 @@
+// * REMAINING WORK
+// 1- CHANGE DECLARATION OF QUESTIONS TO BE ABLE TO ID CORRECT ANSWER
+// 2- AFTER COMPLETING #1 (above), KEEP TRACK OF SCORE
+// 3- SAVE HIGH SCORES TO LOCALSTORAGE
+// 4- GET HIGH SCORES FROM LOCALSTORAGE
+// 5- ADD OPTION TO CLEAR LOCALSTORAGE BY CLICKING ON "Clear high scores" BUTTON
+// When completed, reset timer in countdown() to 75 seconds
+
+
 // Declaring the array of q: questions, a: answers and c: correct answers
 const questionsList = [
   {
@@ -40,23 +49,22 @@ var timerEl = document.getElementById("timer");
 var mainEl = document.getElementById("main");
 var startBtn = document.getElementById("start-quiz-btn");
 var goBackBtn = document.getElementById("go-back-btn");
-var clearHighScoresBtn = document.getElementById("clear-ghigh-scores-btn");
+var clearHighScoresBtn = document.getElementById("clear-high-scores-btn");
 var questionsListEl = document.getElementById("questions-list");
 var answersListEl = document.getElementById("answers-list");
 var resultEl = document.getElementById("result");
 var finalScoreEl = document.getElementById("final-score");
 
-// Declare variables to keep score and track question numbers
-var score = 0;
-var questionNumber = 0;
-
 // Button calls function to start quiz
 startBtn.onclick = startQuiz;
 
+// Declare variables to keep score and track question numbers
+var score = 0;
+var questionNumber = 0;
 // Calls function to reset score and quiz and display quiz screen
 function startQuiz() {
-  score = 0;
-  questionNumber = 0;
+  score = 0; // Resets score to 0
+  questionNumber = 0; // Resets quiz to first question
   displayQuiz();
   countdown();
   nextQuestion();
@@ -74,15 +82,19 @@ function nextQuestion() {
 questionsListEl.onclick = nextQuestion;
 
 // Function to display result and update and display score
-function result () {
-  resultEl.textContent = "Correct!";
+function result() {
+  resultEl.textContent = "Correct!"; // Need to change code to check if answer is correct
   displayResult();
   finalScoreEl.textContent = "Your final score is " + score + ".";
   questionNumber++;
   if (questionNumber < questionsList.length) {
-    setTimeout(function () { nextQuestion() }, 2000);
+    setTimeout(function () {
+      nextQuestion();
+    }, 2000);
   } else {
-    setTimeout(function () { displayAllDone() }, 2000); //END TEST
+    setTimeout(function () {
+      displayAllDone();
+    }, 2000); //END TEST
   }
 }
 
