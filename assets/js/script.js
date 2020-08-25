@@ -1,4 +1,4 @@
-// Declaring the array of q: questions, a: answers and c: correct answers
+// Declaring the array of objects: q: questions, a: answers and c: correct answers
 const questionsList = [
   {
     q: "Commonly used data types DO Not Include:",
@@ -59,9 +59,21 @@ function startQuiz() {
 
 // Set and display questions and answers
 function nextQuestion() {
-  hideResult();
+  hideResult(); //hides the Result of the previous question until a choice is made for the current question
+
+  // Set new Question
   questionsListEl.innerHTML = questionsList[questionNumber].q;
-  answersListEl.innerHTML = questionsList[questionNumber].a;
+
+  // Clears the previous answers list
+  answersListEl.textContent = "";
+
+  // Sets answer choices for the question
+  for (var i = 0; i < questionsList[questionNumber].a.length; i++) {
+    var answerChoiceEl = document.createElement("li");
+    answerChoiceEl.textContent = questionsList[questionNumber].a[i];
+    answersListEl.appendChild(answerChoiceEl);
+  }
+
   answersListEl.addEventListener("click", result);
 }
 
@@ -70,18 +82,37 @@ questionsListEl.onclick = nextQuestion;
 
 // Function to display result and update and display score
 function result() {
-  resultEl.textContent = "Correct!"; // Need to change code to check if answer is correct
-  displayResult();
+  var chosenAnswer = event.target.textContent; //identifies chosen answer
+  var correctAnswer = questionsList[questionNumber].c;
+
+  if (chosenAnswer === correctAnswer) {
+    resultEl.textContent = "Correct!";
+    score += 10;
+  } else {
+    resultEl.textContent = "Incorrect!";
+  }
+
+  // Updates the final score
   finalScoreEl.textContent = "Your final score is " + score + ".";
+
+  displayResult();
+
+  checkQuizEnd();
+}
+
+// Checks whether to move to next question or if questions list is finished
+// Also displays the result for 3 seconds
+function checkQuizEnd() {
   questionNumber++;
+
   if (questionNumber < questionsList.length) {
     setTimeout(function () {
       nextQuestion();
-    }, 2000);
+    }, 3000);
   } else {
     setTimeout(function () {
       displayAllDone();
-    }, 2000); //END TEST
+    }, 3000); //END TEST
   }
 }
 
@@ -110,7 +141,7 @@ function hideResult() {
 
 // Timer that counts down from 75 seconds
 function countdown() {
-  var timeLeft = 20; // change to 75
+  var timeLeft = 30; // change to 75
 
   var timeInterval = setInterval(function () {
     if (timeLeft > 0) {
