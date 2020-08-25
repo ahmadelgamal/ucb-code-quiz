@@ -82,6 +82,9 @@ questionsListEl.onclick = nextQuestion;
 
 // Function to display result and update and display score
 function result() {
+// highlights chosen answer
+event.target.style.backgroundColor = "#bd60e7";
+
   var chosenAnswer = event.target.textContent; //identifies chosen answer
   var correctAnswer = questionsList[questionNumber].c;
 
