@@ -51,10 +51,13 @@ startBtn.onclick = startQuiz;
 // Declare variables to keep score and track question numbers
 var score = 0;
 var questionNumber = 0;
+var userId = -1;
 // Calls function to reset score and quiz and display quiz screen
 function startQuiz() {
   score = 0; // Resets score to 0
   questionNumber = 0; // Resets quiz to first question
+  userId++;
+  console.log(userId);
   displayQuiz();
   countdown();
   nextQuestion();
@@ -126,12 +129,35 @@ function checkQuizEnd() {
 //  Event to trigger saving initials and score
 initialsBtn.onclick = saveScore;
 
+// Function to sort the highest 3 scores
+// function highScoresSorting() {
+//   var highScoresArray = [0, 0, 0]; // Decalres an array to store high scores
+//   if (score >= highScoresArray[0]) {
+//     highScoresArray[2] = highScoresArray[1];
+//     highScoresArray[1] = highScoresArray[0];
+//     highScoresArray[0] = score;
+//   } else if (score >= highScoresArray[1]) {
+//     highScoresArray[2] = highScoresArray[1];
+//     highScoresArray[1] = score;
+//   } else if (score >= highScoresArray[2]) {
+//     highScoresArray[2] = score;
+//   }
+//   console.log(highScoresArray);
+// }
+
 // Function that saves initials and score to localStorage
+var highScoresArray = [];
 function saveScore() {
   var initials = initialsEl.value; // Gets initials from text input field
-  
-  localStorage.initials = initials;
-  localStorage.score = score;
+
+  // localStorage.initials = score;
+  // localStorage.score = score;
+
+  highScoresArray[userId] = [{ initials, score }];
+  localStorage.setItem("highScores", JSON.stringify(highScoresArray));
+
+  // highScoresSorting();
+
   displayHighScores();
 }
 
@@ -141,9 +167,11 @@ function getHighScores() {
   // highScoresListEl.textContent = "";
 
   // Get high scores from localStorage
-  for (var i = 0; i < localStorage.initials.length && i < 5; i++) {
+  for (var i = 0; i < localStorage.highScores.length && i < 5; i++) {
     var highScore = document.createElement("li");
-    highScore.textContent = localStorage.initials + " - " + localStorage.score;
+    var retreivehighScores = JSON.parse(localStorage.getItem("highScores"));
+    highScore.textContent = retreivehighScores[i];
+    console.log(retrievehighScores[i]);
     highScoresListEl.appendChild(highScore);
   }
 }
@@ -153,10 +181,8 @@ clearHighScoresBtn.onclick = clearHighScore;
 
 // Function to clear high scores
 function clearHighScore() {
-  localStorage.removeItem.initials;
-  console.log(localStorage.initials);
-  localStorage.removeItem.score;
-  console.log(localStorage.score);
+  localStorage.removeItem.highScores;
+  console.log(localStorage.highScores);
 }
 
 // Declaring the different views/screens to turn them on and off
