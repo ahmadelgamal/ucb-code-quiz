@@ -1,5 +1,5 @@
 // Declaring the array of objects: q: questions, a: answers and c: correct answers
-const questionsList = [
+const mcqList = [
   {
     q: "Commonly used data types DO Not Include:",
     a: ["strings", "booleans", "alerts", "numbers"],
@@ -37,7 +37,7 @@ var mainEl = document.getElementById("main");
 var startBtn = document.getElementById("start-quiz-btn");
 var goBackBtn = document.getElementById("go-back-btn");
 var clearHighScoresBtn = document.getElementById("clear-high-scores-btn");
-var questionsListEl = document.getElementById("questions-list");
+var mcqListEl = document.getElementById("questions-list");
 var answersListEl = document.getElementById("answers-list");
 var resultEl = document.getElementById("result");
 var finalScoreEl = document.getElementById("final-score");
@@ -62,15 +62,15 @@ function nextQuestion() {
   hideResult(); //hides the Result of the previous question until a choice is made for the current question
 
   // Set new Question
-  questionsListEl.innerHTML = questionsList[questionNumber].q;
+  mcqListEl.innerHTML = mcqList[questionNumber].q;
 
   // Clears the previous answers list
   answersListEl.textContent = "";
 
   // Sets answer choices for the question
-  for (var i = 0; i < questionsList[questionNumber].a.length; i++) {
+  for (var i = 0; i < mcqList[questionNumber].a.length; i++) {
     var answerChoiceEl = document.createElement("li");
-    answerChoiceEl.textContent = questionsList[questionNumber].a[i];
+    answerChoiceEl.textContent = mcqList[questionNumber].a[i];
     answersListEl.appendChild(answerChoiceEl);
   }
 
@@ -78,15 +78,15 @@ function nextQuestion() {
 }
 
 // Event to display next question in quiz
-questionsListEl.onclick = nextQuestion;
+mcqListEl.onclick = nextQuestion;
 
 // Function to display result and update and display score
 function result() {
-// highlights chosen answer
-event.target.style.backgroundColor = "#bd60e7";
+  // highlights chosen answer
+  event.target.style.backgroundColor = "#bd60e7";
 
   var chosenAnswer = event.target.textContent; //identifies chosen answer
-  var correctAnswer = questionsList[questionNumber].c;
+  var correctAnswer = mcqList[questionNumber].c;
 
   if (chosenAnswer === correctAnswer) {
     resultEl.textContent = "Correct!";
@@ -108,7 +108,7 @@ event.target.style.backgroundColor = "#bd60e7";
 function checkQuizEnd() {
   questionNumber++;
 
-  if (questionNumber < questionsList.length) {
+  if (questionNumber < mcqList.length) {
     setTimeout(function () {
       nextQuestion();
     }, 3000);
