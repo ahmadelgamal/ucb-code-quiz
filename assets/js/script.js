@@ -1,4 +1,5 @@
-// Declaring the array of objects: q: questions, a: answers and c: correct answers
+/* -------------------- BEGINS DECLARING GLOBAL VARIABLES -------------------- */
+// Declares the array of objects: q: questions, a: answers and c: correct answers
 const mcqList = [
   {
     q: "Commonly used data types DO Not Include:",
@@ -29,7 +30,7 @@ const mcqList = [
   },
 ];
 
-// Declaring variables to represent the different HTML elements and buttons needed for this project
+// Declares variables to represent the different HTML elements and buttons needed for this project
 var headerEl = document.getElementById("header");
 var viewHighScoresEl = document.getElementById("view-high-scores");
 var timerEl = document.getElementById("timer");
@@ -45,14 +46,45 @@ var initialsEl = document.getElementById("initials");
 var initialsBtn = document.getElementById("initials-btn");
 var highScoresListEl = document.getElementById("high-scores-list");
 
-// Button calls function to start quiz
+// Declaring the different views/screens to turn them on and off
+var startQuizScreen = document.getElementById("start-quiz-screen");
+var quizScreen = document.getElementById("quiz-screen");
+var resultScreen = document.getElementById("result-screen");
+var allDoneScreen = document.getElementById("all-done-screen");
+var highScoresScreen = document.getElementById("high-scores-screen");
+
+// keeps score
+var score = 0;
+
+// tracks current question number
+var questionNumber = 0;
+
+// assigns a new userID for each user, to be used for localStorage
+var userId = -1;
+/* -------------------- ENDS DECLARING GLOBAL VARIABLES -------------------- */
+
+/* -------------------- BEGINS EVENT HANDLERS -------------------- */
+// Calls function to start quiz
 startBtn.onclick = startQuiz;
 
-// Declare variables to keep score and track question numbers
-var score = 0;
-var questionNumber = 0;
-var userId = -1;
-// Calls function to reset score and quiz and display quiz screen
+// Event to display next question in quiz
+mcqListEl.onclick = nextQuestion;
+
+//  Event to trigger saving initials and score
+initialsBtn.onclick = saveScore;
+
+// Event to display high scores screen
+viewHighScoresEl.onclick = displayHighScores;
+
+// Event to trigger clearing high scores list
+clearHighScoresBtn.onclick = clearHighScore;
+
+// Button from high scores screen to go back to start quiz screen
+goBackBtn.onclick = displayGoBack;
+/* -------------------- ENDS EVENT HANDLERS -------------------- */
+
+/* -------------------- BEGINS RESETS -------------------- */
+// Declares a function to reset score and quiz and display quiz screen
 function startQuiz() {
   score = 0; // Resets score to 0
   questionNumber = 0; // Resets quiz to first question
@@ -62,8 +94,28 @@ function startQuiz() {
   countdown();
   nextQuestion();
 }
+/* -------------------- ENDS RESETS -------------------- */
 
-// Set and display questions and answers
+/* -------------------- BEGINS COMMON METHODS -------------------- */
+// Time for quiz in seconds
+var timeLeft = 75; // change to 75
+// Timer that counts down from 75 seconds
+function countdown() {
+  var timeInterval = setInterval(function () {
+    if (timeLeft > 0) {
+      timerEl.textContent = timeLeft;
+      timeLeft--;
+    } else {
+      timerEl.textContent = "0";
+      clearInterval(timeInterval);
+      displayAllDone(); // END TEST
+    }
+  }, 1000); // Timer interval in milliseconds
+}
+/* -------------------- ENDS COMMON METHODS -------------------- */
+
+/* -------------------- BEGINS APP METHODS -------------------- */
+// displays questions and answer choices
 function nextQuestion() {
   hideResult(); //hides the Result of the previous question until a choice is made for the current question
 
@@ -73,18 +125,25 @@ function nextQuestion() {
   // Clears the previous answers list
   answersListEl.textContent = "";
 
+  var answerChoicesCount = mcqList[questionNumber].a.length;
+
   // Sets answer choices for the question
-  for (var i = 0; i < mcqList[questionNumber].a.length; i++) {
+  for (var i = 0; i < answerChoicesCount; i++) {
     var answerChoiceEl = document.createElement("li");
     answerChoiceEl.textContent = mcqList[questionNumber].a[i];
+    answerChoiceEl.className = i;
+    var currentAnswerChoice = document.querySelector("." + i);
+    currentAnswerChoice.addEventListener("click", function () {
+      console.log(this);
+    });
+    console.log(answerChoiceEl.className);
     answersListEl.appendChild(answerChoiceEl);
   }
 
-  answersListEl.addEventListener("click", result);
+  // answersChoiceEl.addEventListener("click", result);
+  var test = answersListEl.addEventListener("click", result);
+  // console.log(test);
 }
-
-// Event to display next question in quiz
-mcqListEl.onclick = nextQuestion;
 
 // Function to display result and update and display score
 function result() {
@@ -126,9 +185,6 @@ function checkQuizEnd() {
   }
 }
 
-//  Event to trigger saving initials and score
-initialsBtn.onclick = saveScore;
-
 // Function to sort the highest 3 scores
 // function highScoresSorting() {
 //   var highScoresArray = [0, 0, 0]; // Decalres an array to store high scores
@@ -144,8 +200,10 @@ initialsBtn.onclick = saveScore;
 //   }
 //   console.log(highScoresArray);
 // }
+/* -------------------- ENDS APP METHODS -------------------- */
 
-// Function that saves initials and score to localStorage
+/* -------------------- BEGINS LOCALSTORAGE -------------------- */
+// Function to set initials and score to localStorage
 var highScoresArray = [];
 function saveScore() {
   var initials = initialsEl.value; // Gets initials from text input field
@@ -176,22 +234,14 @@ function getHighScores() {
   }
 }
 
-// Event to trigger clearing high scores list
-clearHighScoresBtn.onclick = clearHighScore;
-
-// Function to clear high scores
+// Function to clear high scores from localStorage
 function clearHighScore() {
-  localStorage.removeItem.highScores;
+  localStorage.removeItem(highScores);
   console.log(localStorage.highScores);
 }
+/* -------------------- ENDS LOCALSTORAGE -------------------- */
 
-// Declaring the different views/screens to turn them on and off
-var startQuizScreen = document.getElementById("start-quiz-screen");
-var quizScreen = document.getElementById("quiz-screen");
-var resultScreen = document.getElementById("result-screen");
-var allDoneScreen = document.getElementById("all-done-screen");
-var highScoresScreen = document.getElementById("high-scores-screen");
-
+/* -------------------- BEGINS DISPLAYS -------------------- */
 // Turn off start quiz screen and turn on quiz screen
 function displayQuiz() {
   startQuizScreen.style.display = "none";
@@ -208,23 +258,7 @@ function hideResult() {
   resultScreen.style.display = "none";
 }
 
-// Time for quiz in seconds
-var timeLeft = 20; // change to 75
-// Timer that counts down from 75 seconds
-function countdown() {
-  var timeInterval = setInterval(function () {
-    if (timeLeft > 0) {
-      timerEl.textContent = timeLeft;
-      timeLeft--;
-    } else {
-      timerEl.textContent = "0";
-      clearInterval(timeInterval);
-      displayAllDone(); // END TEST
-    }
-  }, 1000); // Timer interval in milliseconds
-}
-
-// End of test
+// End of test screen
 function displayAllDone() {
   headerEl.style.visibility = "visible";
   startQuizScreen.style.display = "none";
@@ -232,9 +266,6 @@ function displayAllDone() {
   highScoresScreen.style.display = "none";
   allDoneScreen.style.display = "initial";
 }
-
-// Event to display high scores screen
-viewHighScoresEl.onclick = displayHighScores;
 
 // Display High Scores screen
 function displayHighScores() {
@@ -246,12 +277,10 @@ function displayHighScores() {
   getHighScores();
 }
 
-// Button from high scores screen to go back to start quiz screen
-goBackBtn.onclick = displayGoBack;
-
 // The go back button in the High Scores screen
 function displayGoBack() {
   headerEl.style.visibility = "visible";
   highScoresScreen.style.display = "none";
   startQuizScreen.style.display = "initial";
 }
+/* -------------------- ENDS DISPLAYS -------------------- */
