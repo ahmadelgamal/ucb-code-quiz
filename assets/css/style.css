@@ -146,6 +146,11 @@ main p {
   display: inline;
 }
 
+#missing-initials {
+  color: red;
+  font-size: 16px;
+}
+
 /* high-score screen styling */
 #high-scores-screen {
   display: none;

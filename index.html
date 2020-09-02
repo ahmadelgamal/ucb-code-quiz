@@ -56,14 +56,16 @@
         <h2 id="final-score"></h2>
         <br />
         <h2 class="enter-initials">Enter initials:</h2>
-        <input type="text" id="initials" />
-        <button class="btn" id="initials-btn">Submit</button>
+        <form id="high-score-form">
+          <input type="text" id="initials" />
+          <button class="btn" id="initials-btn">Submit</button>
+          <p id="missing-initials"></p>
+        </form>
       </div>
 
       <div id="high-scores-screen">
         <h1>High Scores</h1>
-        <ol id="high-scores-list">
-        </ol>
+        <ol id="high-scores-list"></ol>
         <button class="btn" id="go-back-btn">Go back</button>
         <button class="btn" id="clear-high-scores-btn">
           Clear high scores

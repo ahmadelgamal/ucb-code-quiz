@@ -18,8 +18,10 @@ var questionEl = document.getElementById("question");
 var answersListEl = document.getElementById("answers-list");
 var resultEl = document.getElementById("result");
 var finalScoreEl = document.getElementById("final-score");
+var highScoreFormEl = document.getElementById("high-score-form");
 var initialsEl = document.getElementById("initials");
 var initialsBtn = document.getElementById("initials-btn");
+var missingInitialsEl = document.getElementById("missing-initials");
 var highScoresListEl = document.getElementById("high-scores-list");
 
 // declares the array of multiple choice questions (objects): q: questions, a: answers and c: correct answers
@@ -54,11 +56,8 @@ const mcq = [
 ];
 
 /* ---------- other declarations ---------- */
-// assigns a new user id for each user, to be used for local storage
-var userCounter = 0;
-
-// Time for quiz in seconds
-var timeLeft = 10; // change to 75
+// declares timer for quiz
+var timeLeft;
 
 // tracks current question number
 var questionNumber = 0;
@@ -67,7 +66,7 @@ var questionNumber = 0;
 var score = 0;
 
 // stores high scores
-var highScoresArray = [];
+var highScoresLS = [];
 /* -------------------- ENDS DECLARING GLOBAL VARIABLES -------------------- */
 
 /* -------------------- BEGINS DISPLAYS -------------------- */
@@ -103,6 +102,7 @@ function displayHighScores() {
   quizScreenEl.style.display = "none";
   allDoneScreenEl.style.display = "none";
   highScoresScreenEl.style.display = "initial";
+  getHighScores();
 }
 
 // displays start quiz screen and turns off high scores screen
@@ -116,7 +116,7 @@ function displayStartQuiz() {
 
 /* -------------------- BEGINS APP METHODS -------------------- */
 /* ----- Declares a function to reset score and quiz and display quiz screen ----- */
-function startQuiz() {
+function startQuizHandler() {
   // resets score to 0
   score = 0;
   // resets quiz to first question
@@ -129,6 +129,9 @@ function startQuiz() {
 
 /* ----- quiz timer for 75 seconds ----- */
 function countdown() {
+  // Time for quiz in seconds
+  timeLeft = 20; // change to 75
+
   var timeInterval = setInterval(function () {
     if (timeLeft > 0) {
       timerEl.textContent = timeLeft;
@@ -154,19 +157,28 @@ function nextQuestion() {
   // clears the previous answer-choices list
   answersListEl.textContent = "";
 
+  // finds the number of possible answers to the current question
   var answerChoicesCount = mcq[questionNumber].a.length;
 
   // writes answer choices for the question
   for (var i = 0; i < answerChoicesCount; i++) {
     var answerChoiceEl = document.createElement("li");
     answerChoiceEl.textContent = mcq[questionNumber].a[i];
-    answerChoiceEl.addEventListener("click", result);
     answersListEl.appendChild(answerChoiceEl);
+    answerChoiceEl.addEventListener("click", result);
   }
 }
 
 /* ----- displays result and updates & displays score ----- */
 function result() {
+  // finds the number of possible answers to the current question
+  var answerChoicesCount = mcq[questionNumber].a.length;
+
+  // removes event listeners to avoid multiple answers to same question during displaying of result
+  for (var i = 0; i < answerChoicesCount; i++) {
+    answersListEl.childNodes[i].removeEventListener("click", result);
+  }
+
   // highlights chosen answer
   event.target.style.backgroundColor = "#bd60e7";
 
@@ -204,7 +216,8 @@ function checkQuizEnd() {
   } else {
     setTimeout(function () {
       displayAllDone();
-    }, 2000); //END TEST
+    }, 2000);
+    //ends test
     timeLeft = 0;
   }
 }
@@ -214,34 +227,28 @@ function checkQuizEnd() {
 /* ---------- sets initials and score to local storage ---------- */
 function setScore() {
   // gets initials from text input field
-  var initials = initialsEl.value;
-
-  // store initials and score in an array
-  var highScore = [initials, score];
-  
-  //get existing high score list from local storage, if any
-  var highScoresLS = JSON.parse(localStorage.getItem("highScores"));
-
-  // if there is an existing high score list in local storage
-  if (highScoresLS) {
-    for (var i = 0; i < 5; i++) {
-      // insert the current initials and score into the list of high scores
-      if (score >= highScoresLS[i]) {
-        highScoresLS.splice(highScoresLS[i], 0, highScore);
-      }
-    }
+  if (!initialsEl.value) {
+    missingInitialsEl.innerHTML = "Please enter your initials";
   } else {
-    localStorage.setItem("highScores", JSON.stringify(highScore));
+    var initials = initialsEl.value;
   }
 
-  // var highScoreLine = initials + " - " + score;
+  // stores high score as an object
+  var highScore = {
+    initials: initials,
+    score: score,
+  };
 
-  // highScoresArray[userCounter] = [userCounter, highScoreLine];
+  console.log(highScore);
 
-  // // assigns new user id for next user
-  // userCounter++;
+  // //gets existing high score list from local storage, if any
+  // highScoresLS = JSON.parse(localStorage.getItem("highScores"));
+  // console.log(highScoresLS);
 
-  // // highScoresSorting();
+  highScoresLS.push(highScore);
+  console.log(highScoresLS);
+
+  localStorage.setItem("highScores", JSON.stringify(highScoresLS));
 
   // displayHighScores();
   // getHighScores();
@@ -249,34 +256,41 @@ function setScore() {
 
 /* ---------- gets initials and high scores from local storage ---------- */
 function getHighScores() {
-  // Clear previous high scores list to reorganize by highest score
-  // highScoresListEl.textContent = "";
+  // resets high score elements
+  highScoresListEl.textContent = "";
 
-  // Get high scores from localStorage
-  for (var i = 0; i < localStorage.highScores.length && i < 5; i++) {
-    var highScore = document.createElement("li");
-    var retreivehighScores = JSON.parse(localStorage.getItem("highScores"));
-    highScore.textContent = retreivehighScores[i];
-    console.log(retrievehighScores[i]);
-    highScoresListEl.appendChild(highScore);
+  // gets high scores from localStorage
+  var highScoresLS = JSON.parse(localStorage.getItem("highScores"));
+  console.log(highScoresLS);
+
+  // creates html elements for each high score
+  for (var i = 0; i < 5; i++) {
+    var highScoresListItemEl = document.createElement("li");
+    if (highScoresLS && highScoresLS.length >= i) {
+      highScoresListItemEl.textContent = highScoresLS[i];
+    } else {
+      highScoresListItemEl.textContent = "";
+    }
+    highScoresListEl.appendChild(highScoresListItemEl);
   }
 }
 
 /* ---------- clears high scores in local storage ---------- */
 function clearHighScore() {
   localStorage.removeItem("highScores");
+  getHighScores();
 }
 /* -------------------- ENDS LOCALSTORAGE -------------------- */
 
 /* -------------------- BEGINS EVENT HANDLERS -------------------- */
 // calls function to start quiz
-startBtn.onclick = startQuiz;
+startBtn.onclick = startQuizHandler;
 
 // calls function to display next question in quiz
 questionEl.onclick = nextQuestion;
 
 // triggers saving initials and score
-initialsBtn.onclick = setScore;
+highScoreFormEl.addEventListener("submit", setScore);
 
 // displays high scores screen
 viewHighScoresEl.onclick = displayHighScores;
