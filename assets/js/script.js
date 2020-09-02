@@ -55,10 +55,10 @@ const mcq = [
 
 /* ---------- other declarations ---------- */
 // assigns a new user id for each user, to be used for local storage
-var userId = -1;
+var userCounter = 0;
 
 // Time for quiz in seconds
-var timeLeft = 75; // change to 75
+var timeLeft = 10; // change to 75
 
 // tracks current question number
 var questionNumber = 0;
@@ -115,21 +115,19 @@ function displayStartQuiz() {
 /* -------------------- ENDS DISPLAYS -------------------- */
 
 /* -------------------- BEGINS APP METHODS -------------------- */
-// Declares a function to reset score and quiz and display quiz screen
+/* ----- Declares a function to reset score and quiz and display quiz screen ----- */
 function startQuiz() {
   // resets score to 0
   score = 0;
   // resets quiz to first question
   questionNumber = 0;
-  // assigns new userId for localStorage
-  userId++;
-  console.log(userId);
+
   displayQuiz();
   countdown();
   nextQuestion();
 }
 
-// quiz timer for 75 seconds
+/* ----- quiz timer for 75 seconds ----- */
 function countdown() {
   var timeInterval = setInterval(function () {
     if (timeLeft > 0) {
@@ -145,7 +143,7 @@ function countdown() {
   }, 1000);
 }
 
-// displays questions and answer choices
+/* ----- displays questions and answer choices ----- */
 function nextQuestion() {
   // hides the result of the previous question until a choice is made for the current question
   hideResult();
@@ -167,7 +165,7 @@ function nextQuestion() {
   }
 }
 
-// displays result and updates & displays score
+/* ----- displays result and updates & displays score ----- */
 function result() {
   // highlights chosen answer
   event.target.style.backgroundColor = "#bd60e7";
@@ -195,8 +193,7 @@ function result() {
   checkQuizEnd();
 }
 
-// checks whether to move to next question or if questions list is finished
-// also displays the result for 2 seconds
+/* ----- displays the result for 2 seconds, then checks whether to move to next question or if questions list is finished ----- */
 function checkQuizEnd() {
   questionNumber++;
 
@@ -211,22 +208,6 @@ function checkQuizEnd() {
     timeLeft = 0;
   }
 }
-
-// sorts the highest 3 scores
-// function highScoresSorting() {
-//   var highScoresArray = [0, 0, 0]; // Decalres an array to store high scores
-//   if (score >= highScoresArray[0]) {
-//     highScoresArray[2] = highScoresArray[1];
-//     highScoresArray[1] = highScoresArray[0];
-//     highScoresArray[0] = score;
-//   } else if (score >= highScoresArray[1]) {
-//     highScoresArray[2] = highScoresArray[1];
-//     highScoresArray[1] = score;
-//   } else if (score >= highScoresArray[2]) {
-//     highScoresArray[2] = score;
-//   }
-//   console.log(highScoresArray);
-// }
 /* -------------------- ENDS APP METHODS -------------------- */
 
 /* -------------------- BEGINS LOCALSTORAGE -------------------- */
@@ -235,16 +216,35 @@ function setScore() {
   // gets initials from text input field
   var initials = initialsEl.value;
 
-  // localStorage.initials = score;
-  // localStorage.score = score;
+  // store initials and score in an array
+  var highScore = [initials, score];
+  
+  //get existing high score list from local storage, if any
+  var highScoresLS = JSON.parse(localStorage.getItem("highScores"));
 
-  highScoresArray[userId] = [{ initials, score }];
-  localStorage.setItem("highScores", JSON.stringify(highScoresArray));
+  // if there is an existing high score list in local storage
+  if (highScoresLS) {
+    for (var i = 0; i < 5; i++) {
+      // insert the current initials and score into the list of high scores
+      if (score >= highScoresLS[i]) {
+        highScoresLS.splice(highScoresLS[i], 0, highScore);
+      }
+    }
+  } else {
+    localStorage.setItem("highScores", JSON.stringify(highScore));
+  }
 
-  // highScoresSorting();
+  // var highScoreLine = initials + " - " + score;
 
-  displayHighScores();
-  getHighScores();
+  // highScoresArray[userCounter] = [userCounter, highScoreLine];
+
+  // // assigns new user id for next user
+  // userCounter++;
+
+  // // highScoresSorting();
+
+  // displayHighScores();
+  // getHighScores();
 }
 
 /* ---------- gets initials and high scores from local storage ---------- */
@@ -264,8 +264,7 @@ function getHighScores() {
 
 /* ---------- clears high scores in local storage ---------- */
 function clearHighScore() {
-  localStorage.removeItem(highScores);
-  console.log(localStorage.highScores);
+  localStorage.removeItem("highScores");
 }
 /* -------------------- ENDS LOCALSTORAGE -------------------- */
 
