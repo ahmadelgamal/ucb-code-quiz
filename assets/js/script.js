@@ -6,7 +6,7 @@ var resultScreenEl = document.getElementById("result-screen");
 var allDoneScreenEl = document.getElementById("all-done-screen");
 var highScoresScreenEl = document.getElementById("high-scores-screen");
 
-/* ---------- declares variables to represent the different HTML elements and buttons needed for this project ---------- */
+/* ---------- declares variables to represent the different html elements and buttons needed for this project ---------- */
 var headerEl = document.getElementById("header");
 var viewHighScoresEl = document.getElementById("view-high-scores");
 var timerEl = document.getElementById("timer");
@@ -54,7 +54,7 @@ const mcq = [
 ];
 
 /* ---------- other declarations ---------- */
-// assigns a new userID for each user, to be used for localStorage
+// assigns a new user id for each user, to be used for local storage
 var userId = -1;
 
 // Time for quiz in seconds
@@ -147,12 +147,13 @@ function countdown() {
 
 // displays questions and answer choices
 function nextQuestion() {
-  hideResult(); //hides the Result of the previous question until a choice is made for the current question
+  // hides the result of the previous question until a choice is made for the current question
+  hideResult();
 
   // writes new question
   questionEl.innerHTML = mcq[questionNumber].q;
 
-  // clears the previous answers list
+  // clears the previous answer-choices list
   answersListEl.textContent = "";
 
   var answerChoicesCount = mcq[questionNumber].a.length;
@@ -161,20 +162,9 @@ function nextQuestion() {
   for (var i = 0; i < answerChoicesCount; i++) {
     var answerChoiceEl = document.createElement("li");
     answerChoiceEl.textContent = mcq[questionNumber].a[i];
-    answerChoiceEl.className = i;
+    answerChoiceEl.addEventListener("click", result);
     answersListEl.appendChild(answerChoiceEl);
-
-    var currentAnswerChoice = document.querySelector.className(i);
-    console.log(currentAnswerChoice);
-    currentAnswerChoice.addEventListener("click", function () {
-      console.log(this);
-    });
-    console.log(answerChoiceEl.className);
   }
-
-  // answersChoiceEl.addEventListener("click", result);
-  var test = answersListEl.addEventListener("click", result);
-  // console.log(test);
 }
 
 // displays result and updates & displays score
@@ -240,7 +230,7 @@ function checkQuizEnd() {
 /* -------------------- ENDS APP METHODS -------------------- */
 
 /* -------------------- BEGINS LOCALSTORAGE -------------------- */
-/* ---------- sets initials and score to localStorage ---------- */
+/* ---------- sets initials and score to local storage ---------- */
 function setScore() {
   // gets initials from text input field
   var initials = initialsEl.value;
@@ -257,7 +247,7 @@ function setScore() {
   getHighScores();
 }
 
-/* ---------- gets initials and high scores from localStorage ---------- */
+/* ---------- gets initials and high scores from local storage ---------- */
 function getHighScores() {
   // Clear previous high scores list to reorganize by highest score
   // highScoresListEl.textContent = "";
@@ -272,7 +262,7 @@ function getHighScores() {
   }
 }
 
-/* ---------- clears high scores in localStorage ---------- */
+/* ---------- clears high scores in local storage ---------- */
 function clearHighScore() {
   localStorage.removeItem(highScores);
   console.log(localStorage.highScores);
