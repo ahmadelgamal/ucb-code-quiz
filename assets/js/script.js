@@ -66,7 +66,7 @@ var questionNumber = 0;
 var score = 0;
 
 // stores high scores
-var highScoresLS = [];
+// var highScoresLS = [];
 /* -------------------- ENDS DECLARING GLOBAL CONSTANTS AND VARIABLES -------------------- */
 
 /* -------------------- BEGINS DISPLAYS -------------------- */
@@ -102,6 +102,7 @@ function displayHighScores() {
   quizScreenEl.style.display = "none";
   allDoneScreenEl.style.display = "none";
   highScoresScreenEl.style.display = "initial";
+  // calls function to get and display updated high score from localStorage
   getHighScores();
 }
 
@@ -169,7 +170,7 @@ function nextQuestion() {
   }
 }
 
-/* ----- displays result and updates & displays score ----- */
+/* ----- checks result and updates score ----- */
 function result() {
   // finds the number of possible answers to the current question
   var answerChoicesCount = mcq[questionNumber].a.length;
@@ -195,8 +196,7 @@ function result() {
   } else {
     resultEl.textContent = "Incorrect!";
     // in case answer is incorrect, time left is reduced by 10 seconds
-    timeLeft-=10;
-    console.log(timeLeft);
+    timeLeft -= 10;
   }
 
   // updates the final score
@@ -213,10 +213,12 @@ function result() {
 function checkQuizEnd() {
   questionNumber++;
 
+  // if there are more questions on the list, then it displays the next question
   if (questionNumber < mcq.length) {
     setTimeout(function () {
       nextQuestion();
     }, 2000);
+    // if questions are finished, then it ends quiz
   } else {
     setTimeout(function () {
       displayAllDone();
@@ -230,14 +232,8 @@ function checkQuizEnd() {
 /* -------------------- BEGINS LOCALSTORAGE -------------------- */
 /* ---------- sets initials and score to local storage ---------- */
 function setScore() {
-  // gets initials from text input field
-  for (let i = 0; i < 3; i++) {
-    if (!initialsEl.value) {
-      missingInitialsEl.innerHTML = "Please enter your initials";
-    } else {
-      var initials = initialsEl.value;
-    }
-  }
+  // this field is set to `required` meaning that it will not save if field is left empty
+  var initials = initialsEl.value;
 
   // stores high score as an object
   var highScore = {
@@ -245,18 +241,20 @@ function setScore() {
     score: score,
   };
 
-  console.log(highScore);
-
+  // var highScoresLS = [];
   // //gets existing high score list from local storage, if any
-  // highScoresLS = JSON.parse(localStorage.getItem("highScores"));
-  // console.log(highScoresLS);
+  let highScoresLS = JSON.parse(localStorage.getItem("highScores"));
+  if (!highScoresLS) {
+    let highScoresLS = [];
+  }
+  console.log(highScoresLS);
 
   highScoresLS.push(highScore);
   console.log(highScoresLS);
 
   localStorage.setItem("highScores", JSON.stringify(highScoresLS));
 
-  // displayHighScores();
+  displayHighScores();
   // getHighScores();
 }
 

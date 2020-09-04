@@ -57,7 +57,13 @@
         <br />
         <h2 class="enter-initials">Enter initials:</h2>
         <form id="high-score-form">
-          <input type="text" id="initials" />
+          <input
+            id="initials"
+            type="text"
+            required
+            oninput="this.setCustomValidity('')"
+            oninvalid="this.setCustomValidity('Please enter your intitials')"
+          />
           <button class="btn" id="initials-btn">Submit</button>
           <p id="missing-initials"></p>
         </form>
