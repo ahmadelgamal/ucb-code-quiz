@@ -54,7 +54,10 @@ const mcq = [
 
 /* ---------- declares global variables ---------- */
 // declares timer for quiz
-var timeLeft;
+var timeLeft = 75;
+// declares a global variable to store remaining time to show at end of quiz
+// also used for clearInterval to stop timer once questions are finished
+var timeInterval;
 
 // tracks current question number
 var questionNumber = 0;
@@ -71,23 +74,23 @@ var highScoresLS = [];
 
 /* -------------------- BEGINS DISPLAYS -------------------- */
 // turns off start quiz screen and turns on quiz screen
-function displayQuiz() {
+var displayQuiz = function () {
   startQuizScreenEl.style.display = "none";
   quizScreenEl.style.display = "initial";
-}
+};
 
 // displays result for each question after answer
-function displayResult() {
+var displayResult = function () {
   resultScreenEl.style.display = "initial";
-}
+};
 
 // hides result for each question before answer
-function hideResult() {
+var hideResult = function () {
   resultScreenEl.style.display = "none";
-}
+};
 
 // displays all done screen
-function displayAllDone() {
+var displayAllDone = function () {
   headerEl.style.visibility = "visible";
   startQuizScreenEl.style.display = "none";
   quizScreenEl.style.display = "none";
@@ -95,31 +98,33 @@ function displayAllDone() {
   allDoneScreenEl.style.display = "initial";
   // writes the final score
   finalScoreEl.textContent = "Your final score is " + score + ".";
-}
+};
 
 // displays high scores screen
-function displayHighScores() {
+var displayHighScoresHandler = function () {
   headerEl.style.visibility = "hidden";
   startQuizScreenEl.style.display = "none";
   quizScreenEl.style.display = "none";
   allDoneScreenEl.style.display = "none";
   highScoresScreenEl.style.display = "initial";
-  // calls function to get and display updated high score from localStorage
+  // calls function to get and display updated high scores from localStorage
   getHighScores();
-}
+};
 
 // displays start quiz screen and turns off high scores screen
 // (responds to "Go back" button in high scores screen)
-function displayStartQuiz() {
+var displayStartQuizHandler = function () {
   headerEl.style.visibility = "visible";
   highScoresScreenEl.style.display = "none";
   startQuizScreenEl.style.display = "initial";
-}
+  // resets quiz time in seconds
+  timeLeft = 75;
+};
 /* -------------------- ENDS DISPLAYS -------------------- */
 
 /* -------------------- BEGINS APP METHODS -------------------- */
 /* ----- Declares a function to reset score, quiz (question number) & timer, and display quiz screen ----- */
-function startQuizHandler() {
+var startQuizHandler = function () {
   // resets score to 0
   score = 0;
   // resets quiz to first question
@@ -128,14 +133,11 @@ function startQuizHandler() {
   displayQuiz();
   countdown();
   nextQuestion();
-}
+};
 
 /* ----- quiz timer for 75 seconds ----- */
-function countdown() {
-  // Time for quiz in seconds
-  timeLeft = 15; // CHANGE TO 75
-
-  var timeInterval = setInterval(function () {
+var countdown = function () {
+  timeInterval = setInterval(function () {
     if (timeLeft > 0) {
       timerEl.textContent = timeLeft;
       timeLeft--;
@@ -147,10 +149,10 @@ function countdown() {
     }
     // timer interval in milliseconds
   }, 1000);
-}
+};
 
 /* ----- displays questions and answer choices ----- */
-function nextQuestion() {
+var nextQuestion = function () {
   // hides the result of the previous question until a choice is made for the current question
   hideResult();
 
@@ -170,10 +172,10 @@ function nextQuestion() {
     answersListEl.appendChild(answerChoiceEl);
     answerChoiceEl.addEventListener("click", result);
   }
-}
+};
 
 /* ----- checks result of each answer ----- */
-function result() {
+var result = function () {
   // removes event listeners to avoid multiple answers to same question during displaying of result
   for (let i = 0; i < answerChoicesCount; i++) {
     answersListEl.childNodes[i].removeEventListener("click", result);
@@ -204,10 +206,10 @@ function result() {
 
   // calls function to check whether to continue to the quiz, or if this was the last question -> end the quiz
   checkQuizEnd();
-}
+};
 
 /* ----- displays the result for 2 seconds, then checks whether to move to next question or if questions list is finished ----- */
-function checkQuizEnd() {
+var checkQuizEnd = function () {
   questionNumber++;
 
   // if there are more questions on the list, then it displays the next question
@@ -222,14 +224,16 @@ function checkQuizEnd() {
       displayAllDone();
     }, 2000);
     //ends test
-    timeLeft = 0;
+    timerEl.textContent = timeLeft;
+    clearInterval(timeInterval);
+    // timeLeft = 0;
   }
-}
+};
 /* -------------------- ENDS APP METHODS -------------------- */
 
 /* -------------------- BEGINS LOCALSTORAGE -------------------- */
 /* ---------- sets initials and score to local storage ---------- */
-function setScore() {
+var setScore = function () {
   // this field is set to `required` meaning that it will not save if field is left empty
   var initials = initialsEl.value;
 
@@ -241,35 +245,35 @@ function setScore() {
 
   // //gets existing high score list from local storage, if any
   highScoresLS = JSON.parse(localStorage.getItem("highScores"));
-  // checks if list is empty, if yes, then it becomes the current score only
-  // also checks if the score is more than zero, otherwise it is not considered a high score
-  if (!highScoresLS && score > 0) {
+  // if the current score is zero, then it is not a high score, and nothing is recorded
+  if (score === 0) {
+    // if the current score is more than zero, then:
+    // it checks if list is empty, if yes, then it becomes the current score only
+  } else if (!highScoresLS && score > 0) {
     highScoresLS = [highScore];
-    // if the list is empty, but the current score is zero, then it is not a high score, and nothing is recorded
-  } else if (!highScoresLS && score === 0) {
-    // otherwise, if the list has content, then it adds the current score to it
+    // otherwise, if the list has content, then it sorts the high scores
   } else {
     // NEED TO CALL FUNCTION TO SORT HIGH SCORES
     // AT THE MOMENT THIS JUST ADD THE CURRENT SCORE TO THE LIST OF HIGH SCORES
     highScoresLS.unshift(highScore);
   }
 
-  // updates the high scores list in local storage after adding the current score to it
+  // updates the high scores list in local storage after adding the current score, if applicable, and sorting the list
   localStorage.setItem("highScores", JSON.stringify(highScoresLS));
 
   // calls function to display the high scores
-  displayHighScores();
-}
+  displayHighScoresHandler();
+};
 
 /* ---------- gets initials and high scores from local storage ---------- */
-function getHighScores() {
+var getHighScores = function () {
   // resets high score elements
   highScoresListEl.textContent = "";
 
   // gets update of high scores from localStorage
   highScoresLS = JSON.parse(localStorage.getItem("highScores"));
 
-  // creates html elements for each high score (only 5 high scores are displayed)
+  // creates html elements for top 5 high scores (lines print even if they are empty)
   for (let i = 0; i < 5; i++) {
     var highScoresListItemEl = document.createElement("li");
     if (highScoresLS !== null && i < highScoresLS.length) {
@@ -280,13 +284,13 @@ function getHighScores() {
     }
     highScoresListEl.appendChild(highScoresListItemEl);
   }
-}
+};
 
 /* ---------- clears high scores in local storage ---------- */
-function clearHighScore() {
+var clearHighScoreHandler = function () {
   localStorage.removeItem("highScores");
   getHighScores();
-}
+};
 /* -------------------- ENDS LOCALSTORAGE -------------------- */
 
 /* -------------------- BEGINS EVENT HANDLERS -------------------- */
@@ -300,11 +304,11 @@ questionEl.onclick = nextQuestion;
 highScoreFormEl.addEventListener("submit", setScore);
 
 // displays high scores screen
-viewHighScoresEl.onclick = displayHighScores;
+viewHighScoresEl.onclick = displayHighScoresHandler;
 
 // triggers clearing high scores list
-clearHighScoresBtn.onclick = clearHighScore;
+clearHighScoresBtn.onclick = clearHighScoreHandler;
 
 // button in high scores screen, goes back to start quiz screen
-goBackBtn.onclick = displayStartQuiz;
+goBackBtn.onclick = displayStartQuizHandler;
 /* -------------------- ENDS EVENT HANDLERS -------------------- */
