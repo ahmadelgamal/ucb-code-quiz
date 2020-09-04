@@ -21,6 +21,9 @@ const highScoreFormEl = document.getElementById("high-score-form");
 const initialsEl = document.getElementById("initials");
 const highScoresListEl = document.getElementById("high-scores-list");
 
+// declares timer for quiz
+const quizTime = 75;
+
 // declares the array of multiple choice questions (objects): q: questions, a: answers and c: correct answers
 const mcq = [
   {
@@ -53,8 +56,8 @@ const mcq = [
 ];
 
 /* ---------- declares global variables ---------- */
-// declares timer for quiz
-var timeLeft = 75;
+// declares a variable that points to the constant quizTime because it is referenced twice in the file, so we're avoiding error of having to change it twice
+var timeLeft = quizTime;
 // declares a global variable to store remaining time to show at end of quiz
 // also used for clearInterval to stop timer once questions are finished
 var timeInterval;
@@ -117,8 +120,12 @@ var displayStartQuizHandler = function () {
   headerEl.style.visibility = "visible";
   highScoresScreenEl.style.display = "none";
   startQuizScreenEl.style.display = "initial";
+  // resets timer
+  clearInterval(timeInterval);
   // resets quiz time in seconds
-  timeLeft = 75;
+  timeLeft = quizTime;
+  // writes quiz time to the corresponding document element
+  timerEl.textContent = timeLeft;
 };
 /* -------------------- ENDS DISPLAYS -------------------- */
 
@@ -229,11 +236,18 @@ var checkQuizEnd = function () {
     // timeLeft = 0;
   }
 };
+
+/* ----- sorts high score list by score ----- */
+var sortHighScores = function (highScoresLS) {
+  highScoresLS.sort((a, b) => (a.scoreKey < b.scoreKey ? 1 : -1));
+  return highScoresLS;
+};
 /* -------------------- ENDS APP METHODS -------------------- */
 
 /* -------------------- BEGINS LOCALSTORAGE -------------------- */
 /* ---------- sets initials and score to local storage ---------- */
-var setScore = function () {
+var setScore = function (event) {
+  event.preventDefault();
   // this field is set to `required` meaning that it will not save if field is left empty
   var initials = initialsEl.value;
 
@@ -253,9 +267,14 @@ var setScore = function () {
     highScoresLS = [highScore];
     // otherwise, if the list has content, then it sorts the high scores
   } else {
-    // NEED TO CALL FUNCTION TO SORT HIGH SCORES
-    // AT THE MOMENT THIS JUST ADD THE CURRENT SCORE TO THE LIST OF HIGH SCORES
+    // adds current score at index 0 of the high scores list array
     highScoresLS.unshift(highScore);
+    // calls function to sort high scores by score in descending order
+    sortHighScores(highScoresLS);
+    // limits high score to top 5 by deleting index 5, if applicable
+    if (highScoresLS.length === 6) {
+      highScoresLS.pop();
+    }
   }
 
   // updates the high scores list in local storage after adding the current score, if applicable, and sorting the list
@@ -273,7 +292,7 @@ var getHighScores = function () {
   // gets update of high scores from localStorage
   highScoresLS = JSON.parse(localStorage.getItem("highScores"));
 
-  // creates html elements for top 5 high scores (lines print even if they are empty)
+  // creates html elements for high scores (lines print even if they are empty)
   for (let i = 0; i < 5; i++) {
     var highScoresListItemEl = document.createElement("li");
     if (highScoresLS !== null && i < highScoresLS.length) {
