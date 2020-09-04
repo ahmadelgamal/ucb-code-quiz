@@ -6,7 +6,7 @@ const resultScreenEl = document.getElementById("result-screen");
 const allDoneScreenEl = document.getElementById("all-done-screen");
 const highScoresScreenEl = document.getElementById("high-scores-screen");
 
-/* ---------- declares cosntants to point to the different html elements and buttons needed for this project ---------- */
+/* ---------- declares constants to point to the different html elements and buttons needed for this project ---------- */
 const headerEl = document.getElementById("header");
 const viewHighScoresEl = document.getElementById("view-high-scores");
 const timerEl = document.getElementById("timer");
@@ -58,8 +58,8 @@ const mcq = [
 /* ---------- declares global variables ---------- */
 // declares a variable that points to the constant quizTime because it is referenced twice in the file, so we're avoiding error of having to change it twice
 var timeLeft = quizTime;
-// declares a global variable to store remaining time to show at end of quiz
-// also used for clearInterval to stop timer once questions are finished
+/* declares a global variable to store remaining time to show at end of quiz
+also used for clearInterval to stop timer once questions are finished */
 var timeInterval;
 
 // tracks current question number
@@ -114,8 +114,8 @@ var displayHighScoresHandler = function () {
   getHighScores();
 };
 
-// displays start quiz screen and turns off high scores screen
-// (responds to "Go back" button in high scores screen)
+/* displays start quiz screen and turns off high scores screen
+(responds to "Go back" button in high scores screen) */
 var displayStartQuizHandler = function () {
   headerEl.style.visibility = "visible";
   highScoresScreenEl.style.display = "none";
@@ -142,7 +142,7 @@ var startQuizHandler = function () {
   nextQuestion();
 };
 
-/* ----- quiz timer for 75 seconds ----- */
+/* ----- quiz timer countdown ----- */
 var countdown = function () {
   timeInterval = setInterval(function () {
     if (timeLeft > 0) {
@@ -247,6 +247,7 @@ var sortHighScores = function (highScoresLS) {
 /* -------------------- BEGINS LOCALSTORAGE -------------------- */
 /* ---------- sets initials and score to local storage ---------- */
 var setScore = function (event) {
+  // prevents the initials submit from triggering a refresh of index.html
   event.preventDefault();
   // this field is set to `required` meaning that it will not save if field is left empty
   var initials = initialsEl.value;
@@ -257,13 +258,13 @@ var setScore = function (event) {
     scoreKey: score,
   };
 
-  // //gets existing high score list from local storage, if any
+  // gets existing high score list from local storage, if any
   highScoresLS = JSON.parse(localStorage.getItem("highScores"));
   // if the current score is zero, then it is not a high score, and nothing is recorded
   if (score === 0) {
-    // if the current score is more than zero, then:
-    // it checks if list is empty, if yes, then it becomes the current score only
-  } else if (!highScoresLS && score > 0) {
+    /* if the current score is more than zero, then:
+    it checks if list is empty, if yes, then the current score is added to the list */
+  } else if (score > 0 && !highScoresLS) {
     highScoresLS = [highScore];
     // otherwise, if the list has content, then it sorts the high scores
   } else {
