@@ -1,28 +1,28 @@
-/* -------------------- BEGINS DECLARING GLOBAL VARIABLES -------------------- */
+/* -------------------- BEGINS DECLARING GLOBAL CONSTANTS AND VARIABLES -------------------- */
 /* ---------- declares the different views/screens to turn them on and off ---------- */
-var startQuizScreenEl = document.getElementById("start-quiz-screen");
-var quizScreenEl = document.getElementById("quiz-screen");
-var resultScreenEl = document.getElementById("result-screen");
-var allDoneScreenEl = document.getElementById("all-done-screen");
-var highScoresScreenEl = document.getElementById("high-scores-screen");
+const startQuizScreenEl = document.getElementById("start-quiz-screen");
+const quizScreenEl = document.getElementById("quiz-screen");
+const resultScreenEl = document.getElementById("result-screen");
+const allDoneScreenEl = document.getElementById("all-done-screen");
+const highScoresScreenEl = document.getElementById("high-scores-screen");
 
-/* ---------- declares variables to represent the different html elements and buttons needed for this project ---------- */
-var headerEl = document.getElementById("header");
-var viewHighScoresEl = document.getElementById("view-high-scores");
-var timerEl = document.getElementById("timer");
-var mainEl = document.getElementById("main");
-var startBtn = document.getElementById("start-quiz-btn");
-var goBackBtn = document.getElementById("go-back-btn");
-var clearHighScoresBtn = document.getElementById("clear-high-scores-btn");
-var questionEl = document.getElementById("question");
-var answersListEl = document.getElementById("answers-list");
-var resultEl = document.getElementById("result");
-var finalScoreEl = document.getElementById("final-score");
-var highScoreFormEl = document.getElementById("high-score-form");
-var initialsEl = document.getElementById("initials");
-var initialsBtn = document.getElementById("initials-btn");
-var missingInitialsEl = document.getElementById("missing-initials");
-var highScoresListEl = document.getElementById("high-scores-list");
+/* ---------- declares cosntants to represent the different html elements and buttons needed for this project ---------- */
+const headerEl = document.getElementById("header");
+const viewHighScoresEl = document.getElementById("view-high-scores");
+const timerEl = document.getElementById("timer");
+const mainEl = document.getElementById("main");
+const startBtn = document.getElementById("start-quiz-btn");
+const goBackBtn = document.getElementById("go-back-btn");
+const clearHighScoresBtn = document.getElementById("clear-high-scores-btn");
+const questionEl = document.getElementById("question");
+const answersListEl = document.getElementById("answers-list");
+const resultEl = document.getElementById("result");
+const finalScoreEl = document.getElementById("final-score");
+const highScoreFormEl = document.getElementById("high-score-form");
+const initialsEl = document.getElementById("initials");
+const initialsBtn = document.getElementById("initials-btn");
+const missingInitialsEl = document.getElementById("missing-initials");
+const highScoresListEl = document.getElementById("high-scores-list");
 
 // declares the array of multiple choice questions (objects): q: questions, a: answers and c: correct answers
 const mcq = [
@@ -55,7 +55,7 @@ const mcq = [
   },
 ];
 
-/* ---------- other declarations ---------- */
+/* ---------- declares global variable ---------- */
 // declares timer for quiz
 var timeLeft;
 
@@ -67,7 +67,7 @@ var score = 0;
 
 // stores high scores
 var highScoresLS = [];
-/* -------------------- ENDS DECLARING GLOBAL VARIABLES -------------------- */
+/* -------------------- ENDS DECLARING GLOBAL CONSTANTS AND VARIABLES -------------------- */
 
 /* -------------------- BEGINS DISPLAYS -------------------- */
 // turns off start quiz screen and turns on quiz screen
@@ -130,7 +130,7 @@ function startQuizHandler() {
 /* ----- quiz timer for 75 seconds ----- */
 function countdown() {
   // Time for quiz in seconds
-  timeLeft = 20; // change to 75
+  timeLeft = 75;
 
   var timeInterval = setInterval(function () {
     if (timeLeft > 0) {
@@ -151,18 +151,18 @@ function nextQuestion() {
   // hides the result of the previous question until a choice is made for the current question
   hideResult();
 
-  // writes new question
-  questionEl.innerHTML = mcq[questionNumber].q;
-
   // clears the previous answer-choices list
   answersListEl.textContent = "";
 
-  // finds the number of possible answers to the current question
+  // writes new question
+  questionEl.innerHTML = mcq[questionNumber].q;
+
+  // finds the number of possible answers to the new question
   var answerChoicesCount = mcq[questionNumber].a.length;
 
   // writes answer choices for the question
-  for (var i = 0; i < answerChoicesCount; i++) {
-    var answerChoiceEl = document.createElement("li");
+  for (let i = 0; i < answerChoicesCount; i++) {
+    const answerChoiceEl = document.createElement("li");
     answerChoiceEl.textContent = mcq[questionNumber].a[i];
     answersListEl.appendChild(answerChoiceEl);
     answerChoiceEl.addEventListener("click", result);
@@ -175,7 +175,7 @@ function result() {
   var answerChoicesCount = mcq[questionNumber].a.length;
 
   // removes event listeners to avoid multiple answers to same question during displaying of result
-  for (var i = 0; i < answerChoicesCount; i++) {
+  for (let i = 0; i < answerChoicesCount; i++) {
     answersListEl.childNodes[i].removeEventListener("click", result);
   }
 
@@ -190,9 +190,13 @@ function result() {
 
   if (chosenAnswer === correctAnswer) {
     resultEl.textContent = "Correct!";
+    // in case answer is correct, score is increased by 10 points
     score += 10;
   } else {
     resultEl.textContent = "Incorrect!";
+    // in case answer is incorrect, time left is reduced by 10 seconds
+    timeLeft-=10;
+    console.log(timeLeft);
   }
 
   // updates the final score
@@ -227,10 +231,12 @@ function checkQuizEnd() {
 /* ---------- sets initials and score to local storage ---------- */
 function setScore() {
   // gets initials from text input field
-  if (!initialsEl.value) {
-    missingInitialsEl.innerHTML = "Please enter your initials";
-  } else {
-    var initials = initialsEl.value;
+  for (let i = 0; i < 3; i++) {
+    if (!initialsEl.value) {
+      missingInitialsEl.innerHTML = "Please enter your initials";
+    } else {
+      var initials = initialsEl.value;
+    }
   }
 
   // stores high score as an object
@@ -264,8 +270,8 @@ function getHighScores() {
   console.log(highScoresLS);
 
   // creates html elements for each high score
-  for (var i = 0; i < 5; i++) {
-    var highScoresListItemEl = document.createElement("li");
+  for (let i = 0; i < 5; i++) {
+    const highScoresListItemEl = document.createElement("li");
     if (highScoresLS && highScoresLS.length >= i) {
       highScoresListItemEl.textContent = highScoresLS[i];
     } else {
