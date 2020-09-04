@@ -6,11 +6,10 @@ const resultScreenEl = document.getElementById("result-screen");
 const allDoneScreenEl = document.getElementById("all-done-screen");
 const highScoresScreenEl = document.getElementById("high-scores-screen");
 
-/* ---------- declares cosntants to represent the different html elements and buttons needed for this project ---------- */
+/* ---------- declares cosntants to point to the different html elements and buttons needed for this project ---------- */
 const headerEl = document.getElementById("header");
 const viewHighScoresEl = document.getElementById("view-high-scores");
 const timerEl = document.getElementById("timer");
-const mainEl = document.getElementById("main");
 const startBtn = document.getElementById("start-quiz-btn");
 const goBackBtn = document.getElementById("go-back-btn");
 const clearHighScoresBtn = document.getElementById("clear-high-scores-btn");
@@ -20,8 +19,6 @@ const resultEl = document.getElementById("result");
 const finalScoreEl = document.getElementById("final-score");
 const highScoreFormEl = document.getElementById("high-score-form");
 const initialsEl = document.getElementById("initials");
-const initialsBtn = document.getElementById("initials-btn");
-const missingInitialsEl = document.getElementById("missing-initials");
 const highScoresListEl = document.getElementById("high-scores-list");
 
 // declares the array of multiple choice questions (objects): q: questions, a: answers and c: correct answers
@@ -55,18 +52,21 @@ const mcq = [
   },
 ];
 
-/* ---------- declares global variable ---------- */
+/* ---------- declares global variables ---------- */
 // declares timer for quiz
 var timeLeft;
 
 // tracks current question number
 var questionNumber = 0;
 
+// tracks number of anwer choices for current question
+var answerChoicesCount;
+
 // keeps score
 var score = 0;
 
-// stores high scores
-// var highScoresLS = [];
+// declares an array to store the high score list in local storage, if any
+var highScoresLS = [];
 /* -------------------- ENDS DECLARING GLOBAL CONSTANTS AND VARIABLES -------------------- */
 
 /* -------------------- BEGINS DISPLAYS -------------------- */
@@ -93,6 +93,8 @@ function displayAllDone() {
   quizScreenEl.style.display = "none";
   highScoresScreenEl.style.display = "none";
   allDoneScreenEl.style.display = "initial";
+  // writes the final score
+  finalScoreEl.textContent = "Your final score is " + score + ".";
 }
 
 // displays high scores screen
@@ -107,7 +109,7 @@ function displayHighScores() {
 }
 
 // displays start quiz screen and turns off high scores screen
-// (responds to "Go Back" button in high scores screen)
+// (responds to "Go back" button in high scores screen)
 function displayStartQuiz() {
   headerEl.style.visibility = "visible";
   highScoresScreenEl.style.display = "none";
@@ -116,7 +118,7 @@ function displayStartQuiz() {
 /* -------------------- ENDS DISPLAYS -------------------- */
 
 /* -------------------- BEGINS APP METHODS -------------------- */
-/* ----- Declares a function to reset score and quiz and display quiz screen ----- */
+/* ----- Declares a function to reset score, quiz (question number) & timer, and display quiz screen ----- */
 function startQuizHandler() {
   // resets score to 0
   score = 0;
@@ -131,7 +133,7 @@ function startQuizHandler() {
 /* ----- quiz timer for 75 seconds ----- */
 function countdown() {
   // Time for quiz in seconds
-  timeLeft = 75;
+  timeLeft = 15; // CHANGE TO 75
 
   var timeInterval = setInterval(function () {
     if (timeLeft > 0) {
@@ -159,7 +161,7 @@ function nextQuestion() {
   questionEl.innerHTML = mcq[questionNumber].q;
 
   // finds the number of possible answers to the new question
-  var answerChoicesCount = mcq[questionNumber].a.length;
+  answerChoicesCount = mcq[questionNumber].a.length;
 
   // writes answer choices for the question
   for (let i = 0; i < answerChoicesCount; i++) {
@@ -170,25 +172,23 @@ function nextQuestion() {
   }
 }
 
-/* ----- checks result and updates score ----- */
+/* ----- checks result of each answer ----- */
 function result() {
-  // finds the number of possible answers to the current question
-  var answerChoicesCount = mcq[questionNumber].a.length;
-
   // removes event listeners to avoid multiple answers to same question during displaying of result
   for (let i = 0; i < answerChoicesCount; i++) {
     answersListEl.childNodes[i].removeEventListener("click", result);
   }
 
-  // highlights chosen answer
+  // highlights chosen answer element
   event.target.style.backgroundColor = "#bd60e7";
 
-  //identifies chosen answer
+  // gets text content of chosen answer
   var chosenAnswer = event.target.textContent;
 
   // identifies correct answer from list of answer choices
   var correctAnswer = mcq[questionNumber].c;
 
+  // checks result of chosenAnswer vs correctAnswer
   if (chosenAnswer === correctAnswer) {
     resultEl.textContent = "Correct!";
     // in case answer is correct, score is increased by 10 points
@@ -199,13 +199,10 @@ function result() {
     timeLeft -= 10;
   }
 
-  // updates the final score
-  finalScoreEl.textContent = "Your final score is " + score + ".";
-
   // calls function to turn on display of result of answer (correct or incorrect)
   displayResult();
 
-  // calls function to check whether to continue to the quiz, or if this is the last question -> end the quiz
+  // calls function to check whether to continue to the quiz, or if this was the last question -> end the quiz
   checkQuizEnd();
 }
 
@@ -221,6 +218,7 @@ function checkQuizEnd() {
     // if questions are finished, then it ends quiz
   } else {
     setTimeout(function () {
+      // goes to all done screen
       displayAllDone();
     }, 2000);
     //ends test
@@ -237,25 +235,30 @@ function setScore() {
 
   // stores high score as an object
   var highScore = {
-    initials: initials,
-    score: score,
+    initialsKey: initials,
+    scoreKey: score,
   };
 
-  // var highScoresLS = [];
   // //gets existing high score list from local storage, if any
-  let highScoresLS = JSON.parse(localStorage.getItem("highScores"));
-  if (!highScoresLS) {
-    let highScoresLS = [];
+  highScoresLS = JSON.parse(localStorage.getItem("highScores"));
+  // checks if list is empty, if yes, then it becomes the current score only
+  // also checks if the score is more than zero, otherwise it is not considered a high score
+  if (!highScoresLS && score > 0) {
+    highScoresLS = [highScore];
+    // if the list is empty, but the current score is zero, then it is not a high score, and nothing is recorded
+  } else if (!highScoresLS && score === 0) {
+    // otherwise, if the list has content, then it adds the current score to it
+  } else {
+    // NEED TO CALL FUNCTION TO SORT HIGH SCORES
+    // AT THE MOMENT THIS JUST ADD THE CURRENT SCORE TO THE LIST OF HIGH SCORES
+    highScoresLS.unshift(highScore);
   }
-  console.log(highScoresLS);
 
-  highScoresLS.push(highScore);
-  console.log(highScoresLS);
-
+  // updates the high scores list in local storage after adding the current score to it
   localStorage.setItem("highScores", JSON.stringify(highScoresLS));
 
+  // calls function to display the high scores
   displayHighScores();
-  // getHighScores();
 }
 
 /* ---------- gets initials and high scores from local storage ---------- */
@@ -263,15 +266,15 @@ function getHighScores() {
   // resets high score elements
   highScoresListEl.textContent = "";
 
-  // gets high scores from localStorage
-  var highScoresLS = JSON.parse(localStorage.getItem("highScores"));
-  console.log(highScoresLS);
+  // gets update of high scores from localStorage
+  highScoresLS = JSON.parse(localStorage.getItem("highScores"));
 
-  // creates html elements for each high score
+  // creates html elements for each high score (only 5 high scores are displayed)
   for (let i = 0; i < 5; i++) {
-    const highScoresListItemEl = document.createElement("li");
-    if (highScoresLS && highScoresLS.length >= i) {
-      highScoresListItemEl.textContent = highScoresLS[i];
+    var highScoresListItemEl = document.createElement("li");
+    if (highScoresLS !== null && i < highScoresLS.length) {
+      highScoresListItemEl.textContent =
+        highScoresLS[i].initialsKey + " - " + highScoresLS[i].scoreKey;
     } else {
       highScoresListItemEl.textContent = "";
     }
