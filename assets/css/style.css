@@ -46,11 +46,10 @@ main {
 }
 
 main h1,
-.question ul {
+#question {
   margin: 20px 0;
   font-size: 32px;
   font-weight: 700;
-  list-style: none;
 }
 
 main h2 {
@@ -145,6 +144,11 @@ main p {
 
 #initials-btn {
   display: inline;
+}
+
+#missing-initials {
+  color: red;
+  font-size: 16px;
 }
 
 /* high-score screen styling */
